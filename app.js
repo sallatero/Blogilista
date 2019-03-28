@@ -1,7 +1,5 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
 //const http = require('http')
+const config = require('./utils/config')
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -18,9 +16,10 @@ const blogSchema = mongoose.Schema({
 const Blog = mongoose.model('Blog', blogSchema)
 
 //const mongoUrl = 'mongodb://localhost/bloglist'
-const mongoUrl = process.env.MONGODB_URI
+console.log('connecting to db at ', config.MONGODB_URI)
 
-mongoose.connect(mongoUrl, { useNewUrlParser: true })
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+//lisää then ja catch
 
 app.use(cors())
 app.use(bodyParser.json())
