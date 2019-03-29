@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Liemessä",
-  "author": "Jenni Häyrinen",
-  "url": "http://liemessa.fi/",
-  "likes": 23
+  "title": "Peggyn pieni punainen keittio",
+  "author": "Peggy Thomas",
+  "url": "https://pienipunainenkeittio.com/",
+  "likes": 2
 }
