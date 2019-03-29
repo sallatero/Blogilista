@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Peggyn pieni punainen keittio",
-  "author": "Peggy Thomas",
-  "url": "https://pienipunainenkeittio.com/",
-  "likes": 2
+  "title": "Viimeistä murua myöten",
+  "author": "Saara",
+  "url": "http://www.viimeistamuruamyoten.com/",
+  "likes": 15
 }
