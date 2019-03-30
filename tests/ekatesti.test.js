@@ -44,7 +44,7 @@ const longList = [
   {
     _id: "5c9ccfbcc4791db359635308",
     title: "Kulinaari",
-    author: "Helsinkiläinen kotikokki",
+    author: "Kaisa",
     url: "https://kulinaari.blogspot.com/",
     likes: 3,
     __v: 0
@@ -60,7 +60,7 @@ const longList = [
   {
     _id: "5c9df15574d92ec05c8fde03",
     title: "Mansikkaheinä",
-    author: "Leena",
+    author: "Kaisa",
     url: "https://mansikkaheina.blogspot.com/",
     likes: 8,
     __v: 0
@@ -68,7 +68,7 @@ const longList = [
   {
     _id: "5c9df4a0b2a49ec0e22a1865",
     title: "Viimeistä murua myöten",
-    author: "Saara",
+    author: "Virpi Mikkonen",
     url: "http://www.viimeistamuruamyoten.com/",
     likes: 15,
     __v: 0
@@ -85,13 +85,36 @@ const listWithOneBlog = [
     __v: 0
   }
 ]
-/*
-title: '',
-id: '',
-author: '',
-likes: 0
-*/
+
 const emptyList = []
+
+describe('most blogs', () => {
+  const best1 = 
+    {
+      author: listWithOneBlog[0].author,
+      count: 1
+    }
+  test('when list has only one blog, equals the author of that, and 1 blog', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    expect(best1).toMatchObject(result)
+  })
+
+  const best2 = 
+    {
+      author: 'Kaisa',
+      count: 3
+    }
+  test('when list has several blogs', () => {
+    const result = listHelper.mostBlogs(longList)
+    expect(best2).toMatchObject(result)
+  })
+
+  test('when list is empty', () => {
+    const result = listHelper.mostBlogs(emptyList)
+    expect(result).toBeFalsy()
+  })
+})
+
 
 describe('total likes', () => {
 
@@ -127,12 +150,9 @@ describe('favorite blog', () => {
     expect(fav2).toMatchObject(result)
   })
 
-  /*
-  const fav3 = null
   test('when list is empty', () => {
     const result = listHelper.totalLikes(emptyList)
-    expect(result).toBe(0)
+    expect(result).toBeFalsy()
   })
-  */
 
 })

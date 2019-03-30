@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Viimeistä murua myöten",
-  "author": "Saara",
-  "url": "http://www.viimeistamuruamyoten.com/",
-  "likes": 15
+  "title": "Herkkuja",
+  "author": "Virpi Mikkonen",
+  "url": "https://www.instagram.com/p/BvbQFYQl9hV/",
+  "likes": 123
 }

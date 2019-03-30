@@ -1,39 +1,60 @@
+const lodash = require('lodash')
+
 const dummy = (blogs) => {
   return 1
 }
 
+//Etsii blogien joukosta sen kirjoittajan, jolla on eniten blogeja. 
+//Palauttaa kirjailijan nimen ja blogien määrän
+const mostBlogs = (blogs) => {
+  //Lasketaan authoreiden blogien määrät
+  const bloggers = lodash.countBy(blogs, (blog) => {
+    return blog.author
+  })
+
+  //Käydään bloggers läpi ja laitetaan authorit ja blogien määrät taulukkoon
+  //key, value -pareihin: author, count
+  let bloggersList = []
+  const addBlogger = (value, key) => {
+    let newB = { author: key, count: value }
+    let temp = bloggersList.concat(newB)
+    bloggersList = temp
+  }
+  lodash.forIn(bloggers, (value, key) => {
+    addBlogger(value, key)
+  })
+  //console.log(`bloggers list: ${JSON.stringify(bloggersList)}`)
+  
+  //Etsitään author, jolla eniten blogeja
+  let bestBlogger = lodash.maxBy(bloggersList, (o) => {
+    return o.count
+  })
+  /*
+  if (!bestBlogger) {
+    bestBlogger = {}
+  }*/
+  return bestBlogger
+}
+
 const totalLikes = (blogs) => {
-  //console.log('array to go trough: ', blogs)
   const totalLikes = blogs.reduce((sum, blog) => {
-    //console.log('sum: ', sum, ', blog likes: ', blog.likes)
     return sum + blog.likes
   }, 0)
   return totalLikes
 }
 
-//Etsii sen blogin jolla on eniten likejä
+//Etsii sen blogin jolla on eniten likejä ja palauttaa sen, jos blogs on {} palauttaa falsyn
 const favoriteBlog = (blogs) => {
-  let traceInitial = {
-    title: '',
-    _id: '',
-    author: '',
-    likes: 0
-  }
-  const favoriteBlog = blogs.reduce((trace, blog) => {
-    if (blog.likes > trace.likes) {
-      trace.title = blog.title
-      trace.likes = blog.likes
-      trace.author = blog.author
-      trace._id = blog._id
-    }
-    return trace
-  }, traceInitial)
-  console.log(`blog with most likes: ${JSON.stringify(favoriteBlog)}`)
+
+  let favoriteBlog = lodash.maxBy(blogs, (o) => {
+    return o.likes
+  })
   return favoriteBlog
 }
 
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
