@@ -22,9 +22,11 @@
     "eslint": "^5.15.3",
     "eslint-plugin-react": "^7.12.4",
     "jest": "^24.5.0",
+    "jest-extended": "^0.11.1",
     "nodemon": "^1.18.10"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": ["./testSetup.js"]
   }
 }

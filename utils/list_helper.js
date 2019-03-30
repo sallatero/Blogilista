@@ -29,10 +29,6 @@ const mostBlogs = (blogs) => {
   let bestBlogger = lodash.maxBy(bloggersList, (o) => {
     return o.count
   })
-  /*
-  if (!bestBlogger) {
-    bestBlogger = {}
-  }*/
   return bestBlogger
 }
 

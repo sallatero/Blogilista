@@ -1,5 +1,6 @@
 const listHelper = require('../utils/list_helper')
 
+
 //jos kirjoitat test.only(), ajetaan vain tämä testi
 test('dummy returns one', () => {
   const blogs = []
@@ -99,6 +100,28 @@ describe('most blogs', () => {
     expect(best1).toMatchObject(result)
   })
 
+  //Jos parhaita bloggaajia on useampia
+  /*
+  const best2a = ['Kaisa', '3'] 
+  const best2b = ['Virpi Mikkonen', '3']
+      
+  test('when list has several blogs', () => {
+    let result = listHelper.mostBlogs(longList)
+    console.log('result: ', result)
+    //const short = [result.author, `${result.count}`]
+    //console.log('short: ', short);
+    const help = {`${result.author}`: `${result.count}`}
+    expect(result).toContainAnyEntries([best2a, best2b])
+  })
+  */
+  
+  /*
+  test('when list has several blogs', () => {
+    const result = listHelper.mostBlogs(longList)
+    expect(best2a).toMatchObject(result) 
+  })
+*/
+
   const best2 = 
     {
       author: 'Kaisa',
@@ -106,7 +129,7 @@ describe('most blogs', () => {
     }
   test('when list has several blogs', () => {
     const result = listHelper.mostBlogs(longList)
-    expect(best2).toMatchObject(result)
+    expect(best2).toMatchObject(result) 
   })
 
   test('when list is empty', () => {
