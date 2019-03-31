@@ -4,6 +4,36 @@ const dummy = (blogs) => {
   return 1
 }
 
+//Etsii blogien joukosta sen bloggaajan, jonka blogeilla on yhteensä eniten likejä
+//Palauttaa authorin nimen ja likejen totaalilukeman
+const mostLikes = (blogs) => {
+  //Listataan kaikki authorit ja niiden liket
+  let bloggersList = []
+  const record = (author, likes) => {
+    //Jos author löytyy, lisätään liket sille
+    let found = lodash.find(bloggersList, ['author', author])
+    if (found) {
+      found.likes += likes
+    } else {
+      //Muuten luodaan uusi olio ja lisätään se
+      let newB = { author: author, likes: likes }
+      let temp = bloggersList.concat(newB)
+      bloggersList = temp
+    }
+  }
+  
+  lodash.forEach(blogs, (blog) => {
+    record(blog.author, blog.likes)
+  })
+  //console.log('lopputulos: ', bloggersList);
+  
+  let winner = lodash.maxBy(bloggersList, (o) => {
+    return o.likes
+  })
+  //console.log('winner: ', winner);
+  return winner
+}
+
 //Etsii blogien joukosta sen kirjoittajan, jolla on eniten blogeja. 
 //Palauttaa kirjailijan nimen ja blogien määrän
 const mostBlogs = (blogs) => {
@@ -11,6 +41,7 @@ const mostBlogs = (blogs) => {
   const bloggers = lodash.countBy(blogs, (blog) => {
     return blog.author
   })
+  console.log('bloggers: ', bloggers)
 
   //Käydään bloggers läpi ja laitetaan authorit ja blogien määrät taulukkoon
   //key, value -pareihin: author, count
@@ -52,5 +83,6 @@ module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }

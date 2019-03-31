@@ -89,6 +89,33 @@ const listWithOneBlog = [
 
 const emptyList = []
 
+describe.only('most likes', () => {
+  test('when list is empty', () => {
+    const result = listHelper.mostLikes(emptyList)
+    expect(result).toBeFalsy()
+  })
+
+  const best1 = 
+    {
+      author: listWithOneBlog[0].author,
+      likes: 5
+    }
+  test('when list has only one blog, equals the author of that, and 5 likes', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    expect(best1).toMatchObject(result)
+  })
+
+  const best2 = 
+    {
+      author: 'Virpi Mikkonen',
+      likes: 40
+    }
+  test('when list has several blogs', () => {
+    const result = listHelper.mostLikes(longList)
+    expect(best2).toMatchObject(result)
+  })
+})
+
 describe('most blogs', () => {
   const best1 = 
     {
