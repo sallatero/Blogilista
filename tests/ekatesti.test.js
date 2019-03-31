@@ -1,13 +1,6 @@
 const listHelper = require('../utils/list_helper')
 
-
-//jos kirjoitat test.only(), ajetaan vain tämä testi
-test('dummy returns one', () => {
-  const blogs = []
-
-  const result = listHelper.dummy(blogs)
-  expect(result).toBe(1)
-})
+//jos kirjoitat test.only() tai describe.only(), ajetaan vain tse testi
 
 const longList = [
   {
@@ -89,80 +82,60 @@ const listWithOneBlog = [
 
 const emptyList = []
 
-describe.only('most likes', () => {
+describe('most likes', () => {
   test('when list is empty', () => {
     const result = listHelper.mostLikes(emptyList)
     expect(result).toBeFalsy()
   })
 
-  const best1 = 
+  test('when list has only one blog, equals the author of that, and 5 likes', () => {
+    const best1 = 
     {
       author: listWithOneBlog[0].author,
       likes: 5
     }
-  test('when list has only one blog, equals the author of that, and 5 likes', () => {
     const result = listHelper.mostLikes(listWithOneBlog)
     expect(best1).toMatchObject(result)
   })
 
-  const best2 = 
+  test('when list has several blogs', () => {
+    const best2 = 
     {
       author: 'Virpi Mikkonen',
       likes: 40
     }
-  test('when list has several blogs', () => {
     const result = listHelper.mostLikes(longList)
     expect(best2).toMatchObject(result)
   })
 })
 
 describe('most blogs', () => {
-  const best1 = 
+
+  test('when list has only one blog, equals the author of that, and 1 blog', () => {
+    const best1 = 
     {
       author: listWithOneBlog[0].author,
       count: 1
     }
-  test('when list has only one blog, equals the author of that, and 1 blog', () => {
     const result = listHelper.mostBlogs(listWithOneBlog)
     expect(best1).toMatchObject(result)
   })
-
-  //Jos parhaita bloggaajia on useampia
-  /*
-  const best2a = ['Kaisa', '3'] 
-  const best2b = ['Virpi Mikkonen', '3']
       
   test('when list has several blogs', () => {
-    let result = listHelper.mostBlogs(longList)
-    console.log('result: ', result)
-    //const short = [result.author, `${result.count}`]
-    //console.log('short: ', short);
-    const help = {`${result.author}`: `${result.count}`}
-    expect(result).toContainAnyEntries([best2a, best2b])
-  })
-  */
-  
-  /*
-  test('when list has several blogs', () => {
-    const result = listHelper.mostBlogs(longList)
-    expect(best2a).toMatchObject(result) 
-  })
-*/
-
-  const best2 = 
+    const best2 = 
     {
       author: 'Kaisa',
       count: 3
     }
-  test('when list has several blogs', () => {
-    const result = listHelper.mostBlogs(longList)
-    expect(best2).toMatchObject(result) 
+    let result = listHelper.mostBlogs(longList)
+    expect(best2).toMatchObject(result)
   })
 
   test('when list is empty', () => {
     const result = listHelper.mostBlogs(emptyList)
     expect(result).toBeFalsy()
   })
+  
 })
 
 
@@ -189,7 +162,6 @@ describe('favorite blog', () => {
   const fav1 = listWithOneBlog[0]
   test('when list has only one blog, favorite should be it', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
-    //.toEqual-metodi kävisi myös, mutta siinä pitää olla kokonaan samanlainen olio
     //toMatchObject riittää että sen argumentin olion kentät ovat expect-olion kenttien subset
     expect(fav1).toMatchObject(result)
   })
