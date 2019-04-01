@@ -7,15 +7,16 @@ const blogsRouter = require('./controllers/blogs')
 const cors = require('cors')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
+const logger = require('./utils/logger')
 
 //Yhdistetään tietokantaan
-console.log('connecting to db at ', config.MONGODB_URI)
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
+logger.info('connecting to db at ', config.mongoUrl)
+mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
 .then(() => {
-    console.log('connected to MongoDB')
+    logger.info('connected to MongoDB')
 })
 .catch((error) => {
-    console.log('error connecting to MongoDB: ', error.message)  
+    logger.info('error connecting to MongoDB: ', error.message)  
 })
 
 //Otetaan middlewareja käyttöön
