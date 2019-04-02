@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const blogSchema = new mongoose.Schema({
   title: {type: String, required: [true, 'Blog must have a title']},
   author: String,
-  url: String,
+  url: {type: String, required: [true, 'Blog must have a url']},
   likes: {type: Number, default: 0}
 })
 

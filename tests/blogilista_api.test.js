@@ -46,26 +46,45 @@ test('if likes is not given, it is set to 0', async () => {
     url: "http://www.viimeistamuruamyoten.com/"
   }
   const response = await api.post('/api/blogs').send(newBlog)
-  console.log('response body on: ', response.body)
 
   expect(201)
   expect(response.body.likes).toBe(0)
 })
 
-test('blog without title is not added', async () => {
-  const newBlog = {
+test('blog without title and/or url is not added', async () => {
+  const noTitle = {
     author: "Virpi Mikkonen",
     url: "http://www.viimeistamuruamyoten.com/",
-    likes: 15,
+    likes: 15
+  }
+  const noUrl= {
+    author: "Maija Miettinen",
+    title: "Jotain moskaa",
+    likes: 15
+  }
+  const nothing= {
+    author: "Maija Miettinen",
+    likes: 15
   }
 
   await api
     .post('/api/blogs')
-    .send(newBlog)
+    .send(noTitle)
     .expect(400)
-
+    
+  await api
+    .post('/api/blogs')
+    .send(noUrl)
+    .expect(400)
+   
+  await api
+    .post('/api/blogs')
+    .send(nothing)
+    .expect(400)
+  
   const blogsAtEnd = await helper.blogsInDb()
   expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+
 })
 
 test('blogs are returned as json', async () => {
