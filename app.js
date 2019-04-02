@@ -9,6 +9,8 @@ const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
 
+mongoose.set('useFindAndModify', false)
+
 //Yhdistetään tietokantaan
 logger.info('connecting to db at ', config.mongoUrl)
 mongoose.connect(config.mongoUrl, { useNewUrlParser: true })

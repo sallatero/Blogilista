@@ -23,4 +23,21 @@ blogsRouter.post('/', async (request, response, next) => {
   }
 })
 
+
+blogsRouter.delete('/:id', async (request, response, next) => {
+  
+  try {
+    const deletable = await Blog.findByIdAndRemove(request.params.id)
+
+    if (deletable) {
+      //console.log('tietokannasta löytyi id:llä ', request.params.id)
+      response.status(204).end()
+    } else {
+      response.status(204).end()
+    }
+  } catch(exception) {
+    next(exception)
+  }
+})
+
 module.exports = blogsRouter
