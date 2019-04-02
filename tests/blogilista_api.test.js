@@ -15,6 +15,12 @@ beforeEach(async () => {
   await blogObject.save()
 })
 
+test('Id field is called id', async () => {
+  const response = await api.get('/api/blogs')
+  expect(200)
+  expect(response.body[0].id).toBeDefined()
+})
+
 test('a valid blog can be added', async () => {
   const newBlog = {
     title: "Viimeistä murua myöten",
