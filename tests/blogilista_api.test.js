@@ -39,6 +39,19 @@ test('a valid blog can be added', async () => {
   expect(titles).toContain('Viimeistä murua myöten')
 })
 
+test('if likes is not given, it is set to 0', async () => {
+  const newBlog = {
+    author: "Virpi Mikkonen",
+    title: "Viimeistä murua myöten",
+    url: "http://www.viimeistamuruamyoten.com/"
+  }
+  const response = await api.post('/api/blogs').send(newBlog)
+  console.log('response body on: ', response.body)
+
+  expect(201)
+  expect(response.body.likes).toBe(0)
+})
+
 test('blog without title is not added', async () => {
   const newBlog = {
     author: "Virpi Mikkonen",

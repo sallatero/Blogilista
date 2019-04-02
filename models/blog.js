@@ -4,7 +4,7 @@ const blogSchema = new mongoose.Schema({
   title: {type: String, required: [true, 'Blog must have a title']},
   author: String,
   url: String,
-  likes: Number
+  likes: {type: Number, default: 0}
 })
 
 blogSchema.set('toJSON', {
