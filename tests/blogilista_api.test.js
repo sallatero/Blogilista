@@ -47,7 +47,57 @@ describe('when there is initially some blogs saved', () => {
 
 //viewing a specific blog
 
+//Modifying likes of a blog
 
+describe('modifying likes of a blog', () => {
+
+  test('a valid blog can be modified', async () => {
+    const id = "5c9cb84bbdcafaaa90712178"
+    const modified = {
+      title: "Vanelja",
+      author: "Virpi Mikkonen",
+      url: "http://vanelja.com/",
+      likes: 250,
+    }
+    await api
+      .put(`/api/blogs/${id}`)
+      .send(modified)
+      .expect(204)
+
+    const blogAtEnd = await helper.blogInDb(id)
+    expect(blogAtEnd.likes).toBe(modified.likes)
+  })
+  test('if likes is not given, nothing is modified', async () => {
+    const id = "5c9cb84bbdcafaaa90712178"
+    const modified = {
+      title: "Vanelja",
+      author: "Virpi Mikkonen",
+      url: "http://vanelja.com/"
+    }
+    await api
+      .put(`/api/blogs/${id}`)
+      .send(modified)
+      .expect(400)
+
+    const blogAtEnd = await helper.blogInDb(id)
+    expect(blogAtEnd.likes).toBe(25)
+  })
+  test('if id doesnt exist, nothing is modified', async () => {
+    const id = "5c9cb84bbdcafaaa90652178"
+    const modified = {
+      title: "Vanelja",
+      author: "Virpi Mikkonen",
+      url: "http://vanelja.com/"
+    }
+    await api
+      .put(`/api/blogs/${id}`)
+      .send(modified)
+      .expect(404)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
+  })
+})
 
 //Addition of a new blog
 
