@@ -1,6 +1,6 @@
 const blogsRouter = require('express').Router()
 const mongoose = require('mongoose')
-
+const User = require('../models/user')
 const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response, next) => {
@@ -13,16 +13,25 @@ blogsRouter.get('/', async (request, response, next) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-  const blog = new Blog(request.body)
-
+  const body = request.body
+  
   try {
+    const user = await User.findById(body.userId)
+    const blog = new Blog({
+      title: body.title,
+      author: body.author,
+      url: body.url,
+      likes: body.likes,
+      user: user._id
+    })
     const savedBlog = await blog.save()
+    user.blogs = user.blogs.concat(savedBlog._id)
+    await user.save()
     response.status(201).json(savedBlog.toJSON())
   } catch(exception) {
     next(exception)
   }
 })
-
 
 blogsRouter.delete('/:id', async (request, response, next) => {
   

@@ -8,6 +8,7 @@ const cors = require('cors')
 const middleware = require('./utils/middleware')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
+const usersRouter = require('./controllers/users')
 
 mongoose.set('useFindAndModify', false)
 
@@ -29,7 +30,10 @@ app.use(middleware.requestLogger)
 
 //Otetaan blogsRouter käyttöön ja käytetään sitä vain jos polun alku on /api/blogs
 app.use('/api/blogs', blogsRouter)
+//Otetaan usersRouter käyttöön ja käytetään sitä vain jos polun alku on /api/users
+app.use('/api/users', usersRouter)
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
+
 
 module.exports = app
