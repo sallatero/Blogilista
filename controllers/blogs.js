@@ -2,6 +2,7 @@ const blogsRouter = require('express').Router()
 const mongoose = require('mongoose')
 const User = require('../models/user')
 const Blog = require('../models/blog')
+const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response, next) => {
   try {
@@ -13,12 +14,24 @@ blogsRouter.get('/', async (request, response, next) => {
   }
 })
 
+const getTokenFrom = request => {
+  const authorization = request.get('authorization')
+  if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+    return authorization.substring(7)
+  }
+  return null
+}
+
 blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
-  
+  const token = getTokenFrom(request)
   try {
+    const decodedToken = jwt.verify(token, process.env.SECRET)
+    if (!token || !decodedToken.id) {
+      return response.status(401).json({error: 'token missing or invalid'})
+    }
     //Haetaan ensimmäinen käyttäjä kannasta
-    const user = await User.findOne({})
+    const user = await User.findById(decodedToken.id)
     //Luodaan uusi blogi-olio ja sille viitteeksi löydetty käyttäjä
     const blog = new Blog({
       title: body.title,
