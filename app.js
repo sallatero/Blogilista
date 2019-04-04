@@ -11,6 +11,7 @@ const logger = require('./utils/logger')
 const usersRouter = require('./controllers/users')
 
 mongoose.set('useFindAndModify', false)
+mongoose.set('useCreateIndex', true)
 
 //Yhdistetään tietokantaan
 logger.info('connecting to db at ', config.mongoUrl)
