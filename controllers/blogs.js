@@ -5,7 +5,8 @@ const Blog = require('../models/blog')
 
 blogsRouter.get('/', async (request, response, next) => {
   try {
-    const blogs = await Blog.find({})
+    const blogs = await Blog
+    .find({}).populate('user', {username: 1, name: 1, id: 1})
     response.json(blogs.map(blog => blog.toJSON()))
   } catch(exception) {
     next(exception)
@@ -16,7 +17,9 @@ blogsRouter.post('/', async (request, response, next) => {
   const body = request.body
   
   try {
-    const user = await User.findById(body.userId)
+    //Haetaan ensimmäinen käyttäjä kannasta
+    const user = await User.findOne({})
+    //Luodaan uusi blogi-olio ja sille viitteeksi löydetty käyttäjä
     const blog = new Blog({
       title: body.title,
       author: body.author,
@@ -24,8 +27,8 @@ blogsRouter.post('/', async (request, response, next) => {
       likes: body.likes,
       user: user._id
     })
-    const savedBlog = await blog.save()
-    user.blogs = user.blogs.concat(savedBlog._id)
+    const savedBlog = await blog.save() //Talletetaan blogi
+    user.blogs = user.blogs.concat(savedBlog._id) //Lisätään blogi käyttäjän alle
     await user.save()
     response.status(201).json(savedBlog.toJSON())
   } catch(exception) {

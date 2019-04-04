@@ -110,7 +110,7 @@ describe('when there is initially some blogs saved', () => {
       url: "http://www.viimeistamuruamyoten.com/",
       likes: 15,
     }
-    await api
+    const res = await api
       .post('/api/blogs')
       .send(newBlog)
       .expect('Content-Type', /application\/json/)
@@ -119,6 +119,7 @@ describe('when there is initially some blogs saved', () => {
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).toContain('Viimeistä murua myöten')
+    expect(res.body.user).toBeDefined()
   })
 
   test('if likes is not given, it is set to 0', async () => {
@@ -131,6 +132,11 @@ describe('when there is initially some blogs saved', () => {
 
     expect(201)
     expect(response.body.likes).toBe(0)
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain('Viimeistä murua myöten')
+    expect(response.body.user).toBeDefined()
   })
 
   test('blog without title and/or url is not added', async () => {

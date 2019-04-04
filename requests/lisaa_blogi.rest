@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Herkkuja",
-  "author": "Virpi Mikkonen",
-  "url": "https://www.instagram.com/p/BvbQFYQl9hV/",
-  "likes": 123
+  "title": "Cakes for Salla",
+  "author": "Cake King",
+  "url": "https://www.cookinglight.com/cooking-101/techniques/cake-baking",
+  "likes": 10
 }
