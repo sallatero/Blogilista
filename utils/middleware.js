@@ -12,6 +12,15 @@ const unknownEndpoint = (req, res) => {
   res.status(404).send({ error: 'unknown endpoint' })
 }
 
+//Ottaa tokenin Authorization-headeristä ja sijoittaa sen request-olion kenttään token
+const tokenExtractor = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if(authorization && authorization.toLowerCase().startsWith('bearer ')){
+    request.token = authorization.substring(7)
+  }
+  next()
+}
+
 const errorHandler = (error, req, res, next) => {
   logger.error(error.message)
   if (error.name === 'CastError' && error.kind === 'ObjectId') {
@@ -27,5 +36,6 @@ const errorHandler = (error, req, res, next) => {
 module.exports = {
   requestLogger,
   unknownEndpoint,
-  errorHandler
+  errorHandler,
+  tokenExtractor
 }

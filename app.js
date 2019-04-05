@@ -29,6 +29,7 @@ mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
 app.use(cors())
 app.use(bodyParser.json())
 app.use(middleware.requestLogger)
+app.use(middleware.tokenExtractor)
 
 //Otetaan blogsRouter käyttöön ja käytetään sitä vain jos polun alku on /api/blogs
 app.use('/api/blogs', blogsRouter)
