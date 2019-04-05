@@ -1,10 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGxpcyIsImlkIjoiNWNhNjI4YzhlYWY1MjYzYTVjNWI0MWM0IiwiaWF0IjoxNTU0MzkzNDI2fQ.3-bAlRcfpQ1JVlSoC69hpjOmSy9hRK84wVh_3bo7LE8
+//Hae token ensin kirjautumalla login-pathissa
+Authorization: Bearer eyJhbGOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNhbGxhdGVybyIsImlkIjoiNWNhNjA2ZmNlMWE4NmUzNGNkMGNiZTc5IiwiaWF0IjoxNTU0NDU0MjE1fQ.LD_fCFZc9nFD7pG6XLacg-pTHKOsU9Ab1bQPAFcEqpQ
 
 {
-  "title": "Kinuskikissa",
-  "author": "Joku tyyppi",
-  "url": "https://www.kinuskikissa.fi",
-  "likes": 10
+  "title": "Annin uunissa",
+  "author": "Anni",
+  "url": "https://www.anninuunissa.fi/",
+  "likes": 106
 }
