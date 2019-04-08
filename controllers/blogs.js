@@ -1,5 +1,4 @@
 const blogsRouter = require('express').Router()
-const mongoose = require('mongoose')
 const User = require('../models/user')
 const Blog = require('../models/blog')
 const jwt = require('jsonwebtoken')
@@ -7,7 +6,7 @@ const jwt = require('jsonwebtoken')
 blogsRouter.get('/', async (request, response, next) => {
   try {
     const blogs = await Blog
-    .find({}).populate('user', {username: 1, name: 1, id: 1})
+      .find({}).populate('user', {username: 1, name: 1, id: 1})
     response.json(blogs.map(blog => blog.toJSON()))
   } catch(exception) {
     next(exception)
@@ -15,22 +14,22 @@ blogsRouter.get('/', async (request, response, next) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-  const body = request.body
+  //Luodaan uusi blogi-olio pyynnön perusteella
+  const blog = new Blog(request.body)
   try {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    if (!request.token || !decodedToken.id) {
+    if (!request.token) {
       return response.status(401).json({error: 'token missing or invalid'})
     }
-    //Haetaan ensimmäinen käyttäjä kannasta
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({error: 'token missing or invalid'})
+    }
+    //Haetaan käyttäjä kannasta ja annetaan se viitteeksi blogille
     const user = await User.findById(decodedToken.id)
-    //Luodaan uusi blogi-olio ja sille viitteeksi löydetty käyttäjä
-    const blog = new Blog({
-      title: body.title,
-      author: body.author,
-      url: body.url,
-      likes: body.likes,
-      user: user._id
-    })
+    blog.user = user.id
+
+    //Myös tässä voisi tehdä tarkistuksen että url ja title on annettu ja likes default setting
+
     const savedBlog = await blog.save() //Talletetaan blogi
     user.blogs = user.blogs.concat(savedBlog._id) //Lisätään blogi käyttäjän alle
     await user.save()
