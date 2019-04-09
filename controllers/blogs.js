@@ -17,6 +17,7 @@ blogsRouter.post('/', async (request, response, next) => {
   //Luodaan uusi blogi-olio pyynnön perusteella
   const blog = new Blog(request.body)
   try {
+    //console.log('blogsRouterista: token: ', request.token);
     if (!request.token) {
       return response.status(401).json({error: 'token missing or invalid'})
     }

@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { nextTick } from 'q';
 const baseUrl = '/api/blogs'
 
 let token = null
@@ -15,7 +16,7 @@ const getAll = () => {
 
 //data: title, author, url, likes, token
 const create = async newObj => {
-  console.log('create kutsuttu. newobj: ', newObj);
+  console.log('create kutsuttu. newobj: ', newObj)
   const config = {
     headers: { Authorization: token},
   }

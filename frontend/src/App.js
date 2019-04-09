@@ -57,19 +57,15 @@ const App = () => {
       }, 5000);
     }
   }
-/*
+
   const handleLogout = async (event) => {
     event.preventDefault()
-    console.log('logging out user', username)
+    console.log('logging out user', user.username)
     try {
-      const user = await loginService.login({
-        username, password
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
+      window.localStorage.clear()
+      blogService.setToken(null)
+      
+      setUser(null)
       setUsername('')
       setPassword('')
 
@@ -80,7 +76,7 @@ const App = () => {
       }, 5000);
     }
   }
-*/
+
   const handleBlogAdd = async (event) => {
     event.preventDefault()
     console.log('adding a new blog', newBlogTitle)
@@ -95,10 +91,17 @@ const App = () => {
       setNewBlogLikes(0)
 
     } catch(exception) {
+      //Jos blogin lisääminen ei onnistunut
       setErrorMessage('blogin lisääminen ei onnistunut')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000);
+      }, 5000)
+      window.localStorage.clear()
+      blogService.setToken(null)
+      
+      setUser(null)
+      setUsername('')
+      setPassword('')
     }
   }
 
@@ -115,8 +118,6 @@ const App = () => {
   } 
   console.log('user: ', user)
 
-  //<LogoutButton handleLogout={handleLogout}/>
-
   return (
     <div>
       <h1>Blogilista</h1>
@@ -126,6 +127,7 @@ const App = () => {
         <div><h2>Log in</h2>{loginform()}</div> :
         <div>
           <p>{user.name} logged in</p>
+          <LogoutButton handleLogout={handleLogout} username={username}/>
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>
