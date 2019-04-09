@@ -1,6 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
+import blogService from '../services/blogs'
 
-const BlogForm = ({handleBlogAdd, newBlog, setters}) => {
+const BlogForm = ({addBlog, setMessage, resetUser}) => {
+  const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [newBlogLikes, setNewBlogLikes] = useState(0)
+
+  const handleBlogAdd = async (event) => {
+    event.preventDefault()
+    console.log('adding a new blog', newBlogTitle)
+    try {
+      const blog = await blogService.create({
+        title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
+      })
+      addBlog(blog)
+      setNewBlogTitle('')
+      setNewBlogAuthor('')
+      setNewBlogUrl('')
+      setNewBlogLikes(0)
+
+    } catch(exception) {
+      //Jos blogin lisääminen ei onnistunut
+      setMessage('blogin lisääminen ei onnistunut')
+      window.localStorage.clear()
+      blogService.setToken(null)
+      resetUser()
+    }
+  }
+
   return (
     <div>
       <form onSubmit={handleBlogAdd}>
@@ -8,36 +36,36 @@ const BlogForm = ({handleBlogAdd, newBlog, setters}) => {
           Title
             <input 
               type="text" 
-              value={newBlog.title} 
+              value={newBlogTitle} 
               name="Title"
-              onChange={({target}) => setters.title(target.value)}
+              onChange={({target}) => setNewBlogTitle(target.value)}
             />
         </div>
         <div>
           Author
             <input 
               type="text" 
-              value={newBlog.author} 
+              value={newBlogAuthor} 
               name="Author"
-              onChange={({target}) => setters.author(target.value)}
+              onChange={({target}) => setNewBlogAuthor(target.value)}
             />
         </div>
         <div>
           Url
             <input 
               type="text" 
-              value={newBlog.url} 
+              value={newBlogUrl} 
               name="Url"
-              onChange={({target}) => setters.url(target.value)}
+              onChange={({target}) => setNewBlogUrl(target.value)}
             />
         </div>
         <div>
           Likes
             <input 
               type="number" 
-              value={newBlog.likes} 
+              value={newBlogLikes} 
               name="Likes"
-              onChange={({target}) => setters.likes(target.value)}
+              onChange={({target}) => setNewBlogLikes(target.value)}
             />
         </div>
         <button type="submit">tallenna</button>

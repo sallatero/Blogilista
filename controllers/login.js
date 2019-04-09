@@ -20,7 +20,7 @@ loginRouter.post('/', async (req, res) => {
     id: user._id
   }
   //Token expiroituu 1 päivän jälkeen
-  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: 10})
+  const token = jwt.sign(userForToken, process.env.SECRET, { expiresIn: '1d'})
 
   res.status(200).send({token, username: user.username, name: user.name})
 })

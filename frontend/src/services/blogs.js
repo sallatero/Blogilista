@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { nextTick } from 'q';
 const baseUrl = '/api/blogs'
 
 let token = null

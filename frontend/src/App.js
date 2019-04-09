@@ -9,10 +9,10 @@ import LogoutButton from './components/LogoutButton'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlogTitle, setNewBlogTitle] = useState('')
-  const [newBlogAuthor, setNewBlogAuthor] = useState('')
-  const [newBlogUrl, setNewBlogUrl] = useState('')
-  const [newBlogLikes, setNewBlogLikes] = useState(0)
+  //const [newBlogTitle, setNewBlogTitle] = useState('')
+  //const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  //const [newBlogUrl, setNewBlogUrl] = useState('')
+  //const [newBlogLikes, setNewBlogLikes] = useState(0)
   const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -35,6 +35,21 @@ const App = () => {
     }
   }, [])
 
+  const addBlog = (blog) => {
+    setBlogs(blogs.concat(blog))
+  }
+  const resetUser = () => {
+    setUser(null)
+    setUsername('')
+    setPassword('')
+  }
+  const setMessage = (message) => {
+    setErrorMessage(message)
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     console.log('logging in with', username, password)
@@ -51,10 +66,7 @@ const App = () => {
       setPassword('')
 
     } catch(exception) {
-      setErrorMessage('käyttäjätunnus tai salasana virheellinen')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000);
+      setMessage('käyttäjätunnus tai salasana virheellinen')
     }
   }
 
@@ -70,38 +82,7 @@ const App = () => {
       setPassword('')
 
     } catch(exception) {
-      setErrorMessage('uloskirjaus ei onnistunut')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000);
-    }
-  }
-
-  const handleBlogAdd = async (event) => {
-    event.preventDefault()
-    console.log('adding a new blog', newBlogTitle)
-    try {
-      const blog = await blogService.create({
-        title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
-      })
-      setBlogs(blogs.concat(blog))
-      setNewBlogTitle('')
-      setNewBlogAuthor('')
-      setNewBlogUrl('')
-      setNewBlogLikes(0)
-
-    } catch(exception) {
-      //Jos blogin lisääminen ei onnistunut
-      setErrorMessage('blogin lisääminen ei onnistunut')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
-      window.localStorage.clear()
-      blogService.setToken(null)
-      
-      setUser(null)
-      setUsername('')
-      setPassword('')
+      setMessage('uloskirjaus ei onnistunut')
     }
   }
 
@@ -113,7 +94,7 @@ const App = () => {
 
   const blogform = () => {
     return (
-      <BlogForm handleBlogAdd={handleBlogAdd} newBlog={{title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes}} setters={{title: setNewBlogTitle, author: setNewBlogAuthor, url: setNewBlogUrl, likes: setNewBlogLikes}} />
+      <BlogForm addBlog={addBlog} setMessage={setMessage} resetUser={resetUser}/>
     )
   } 
   console.log('user: ', user)
@@ -127,7 +108,7 @@ const App = () => {
         <div><h2>Log in</h2>{loginform()}</div> :
         <div>
           <p>{user.name} logged in</p>
-          <LogoutButton handleLogout={handleLogout} username={username}/>
+          <LogoutButton handleLogout={handleLogout} />
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>
