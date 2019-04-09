@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
-import loginService from './services/login'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
@@ -14,8 +13,8 @@ const App = () => {
   //const [newBlogUrl, setNewBlogUrl] = useState('')
   //const [newBlogLikes, setNewBlogLikes] = useState(0)
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  //const [username, setUsername] = useState('')
+  //const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
 
   //Haetaan kannasta blogit
@@ -38,10 +37,8 @@ const App = () => {
   const addBlog = (blog) => {
     setBlogs(blogs.concat(blog))
   }
-  const resetUser = () => {
-    setUser(null)
-    setUsername('')
-    setPassword('')
+  const updateUser = (user) => {
+    setUser(user)
   }
   const setMessage = (message) => {
     setErrorMessage(message)
@@ -50,35 +47,15 @@ const App = () => {
       }, 5000)
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    console.log('logging in with', username, password)
-    try {
-      const user = await loginService.login({
-        username, password
-      })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-
-    } catch(exception) {
-      setMessage('käyttäjätunnus tai salasana virheellinen')
-    }
-  }
-
   const loginform = () => {
     return (
-    <LoginForm handleLogin={handleLogin} username={username} password={password} setUsername={setUsername} setPassword={setPassword}/>  
+    <LoginForm setMessage={setMessage} updateUser={updateUser}/>  
     )
   }
 
   const blogform = () => {
     return (
-      <BlogForm addBlog={addBlog} setMessage={setMessage} resetUser={resetUser}/>
+      <BlogForm addBlog={addBlog} setMessage={setMessage} updateUser={updateUser}/>
     )
   } 
   console.log('user: ', user)
@@ -92,7 +69,7 @@ const App = () => {
         <div><h2>Log in</h2>{loginform()}</div> :
         <div>
           <p>{user.name} logged in</p>
-          <LogoutButton resetUser={resetUser} setMessage={setMessage}/>
+          <LogoutButton updateUser={updateUser} setMessage={setMessage}/>
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>

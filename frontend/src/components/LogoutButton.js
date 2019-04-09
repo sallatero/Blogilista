@@ -1,7 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-const LogoutButton = ({resetUser, setMessage}) => {
+const LogoutButton = ({updateUser, setMessage}) => {
 
   const handleLogout = async (event) => {
     event.preventDefault()
@@ -9,7 +9,7 @@ const LogoutButton = ({resetUser, setMessage}) => {
     try {
       window.localStorage.clear()
       blogService.setToken(null)
-      resetUser()
+      updateUser(null)
     } catch(exception) {
       setMessage('uloskirjaus ei onnistunut')
     }

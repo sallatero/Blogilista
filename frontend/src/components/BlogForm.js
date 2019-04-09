@@ -1,11 +1,18 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({addBlog, setMessage, resetUser}) => {
+const BlogForm = ({addBlog, setMessage, updateUser}) => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
   const [newBlogLikes, setNewBlogLikes] = useState(0)
+
+  const resetBlogFields = () => {
+    setNewBlogTitle('')
+    setNewBlogAuthor('')
+    setNewBlogUrl('')
+    setNewBlogLikes(0)
+  }
 
   const handleBlogAdd = async (event) => {
     event.preventDefault()
@@ -15,17 +22,14 @@ const BlogForm = ({addBlog, setMessage, resetUser}) => {
         title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
       })
       addBlog(blog)
-      setNewBlogTitle('')
-      setNewBlogAuthor('')
-      setNewBlogUrl('')
-      setNewBlogLikes(0)
+      resetBlogFields()
 
     } catch(exception) {
       //Jos blogin lisääminen ei onnistunut
       setMessage('blogin lisääminen ei onnistunut')
       window.localStorage.clear()
       blogService.setToken(null)
-      resetUser()
+      updateUser(null)
     }
   }
 
