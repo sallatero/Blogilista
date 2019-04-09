@@ -5,6 +5,10 @@ const User = require('../models/user')
 
 loginRouter.post('/', async (req, res) => {
   const body = req.body
+ /*if (body.logout) {
+    //Poistetaan käyttäjä local storagesta ja tilasta
+    
+  }*/
   const user = await User.findOne({username: body.username})
   const passwordCorrect = user === null 
     ? false
