@@ -70,22 +70,6 @@ const App = () => {
     }
   }
 
-  const handleLogout = async (event) => {
-    event.preventDefault()
-    console.log('logging out user', user.username)
-    try {
-      window.localStorage.clear()
-      blogService.setToken(null)
-      
-      setUser(null)
-      setUsername('')
-      setPassword('')
-
-    } catch(exception) {
-      setMessage('uloskirjaus ei onnistunut')
-    }
-  }
-
   const loginform = () => {
     return (
     <LoginForm handleLogin={handleLogin} username={username} password={password} setUsername={setUsername} setPassword={setPassword}/>  
@@ -108,7 +92,7 @@ const App = () => {
         <div><h2>Log in</h2>{loginform()}</div> :
         <div>
           <p>{user.name} logged in</p>
-          <LogoutButton handleLogout={handleLogout} />
+          <LogoutButton resetUser={resetUser} setMessage={setMessage}/>
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>
