@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const BlogForm = ({addBlog, setMessage, updateUser}) => {
+const BlogForm = ({addBlog, addMessage, updateUser}) => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
@@ -18,15 +18,21 @@ const BlogForm = ({addBlog, setMessage, updateUser}) => {
     event.preventDefault()
     console.log('adding a new blog', newBlogTitle)
     try {
-      const blog = await blogService.create({
+      const response = await blogService.create({
         title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
       })
-      addBlog(blog)
-      resetBlogFields()
-
+      if (response.errorTitle && response.statusCode) { //Validation problem
+        console.log('validation issue: ', response)
+        resetBlogFields()
+        addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
+      } else {
+        addBlog(response)
+        resetBlogFields()
+        addMessage('blogin lisääminen onnistui', false)
+      }
     } catch(exception) {
-      //Jos blogin lisääminen ei onnistunut
-      setMessage('blogin lisääminen ei onnistunut')
+      //Jos käyttäjän token on vanhentunut
+      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.', true)
       window.localStorage.clear()
       blogService.setToken(null)
       updateUser(null)

@@ -15,7 +15,8 @@ const App = () => {
   const [user, setUser] = useState(null)
   //const [username, setUsername] = useState('')
   //const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState('')
+  const [err, setErr] = useState(false)
 
   //Haetaan kannasta blogit
   useEffect(() => {
@@ -40,22 +41,23 @@ const App = () => {
   const updateUser = (user) => {
     setUser(user)
   }
-  const setMessage = (message) => {
-    setErrorMessage(message)
+  const addMessage = (message, err) => {
+    setErr(err)
+    setMessage(message)
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setMessage('')
+      }, 3000)
   }
 
   const loginform = () => {
     return (
-    <LoginForm setMessage={setMessage} updateUser={updateUser}/>  
+    <LoginForm addMessage={addMessage} updateUser={updateUser}/>  
     )
   }
 
   const blogform = () => {
     return (
-      <BlogForm addBlog={addBlog} setMessage={setMessage} updateUser={updateUser}/>
+      <BlogForm addBlog={addBlog} addMessage={addMessage} updateUser={updateUser}/>
     )
   } 
   console.log('user: ', user)
@@ -63,13 +65,13 @@ const App = () => {
   return (
     <div>
       <h1>Blogilista</h1>
-      <Notification message={errorMessage}/>
+      <Notification message={message} err={err}/>
       
       {user === null ?
         <div><h2>Log in</h2>{loginform()}</div> :
         <div>
           <p>{user.name} logged in</p>
-          <LogoutButton updateUser={updateUser} setMessage={setMessage}/>
+          <LogoutButton updateUser={updateUser} addMessage={addMessage}/>
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>

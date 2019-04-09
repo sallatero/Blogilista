@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { nextTick } from 'q';
 const baseUrl = '/api/blogs'
 
 let token = null
@@ -15,12 +16,18 @@ const getAll = () => {
 
 //data: title, author, url, likes, token
 const create = async newObj => {
-  console.log('create kutsuttu. newobj: ', newObj)
-  const config = {
-    headers: { Authorization: token},
+  try {
+    console.log('create kutsuttu. newobj: ', newObj)
+    const config = {
+      headers: { Authorization: token},
+    }
+    const response = await axios.post(baseUrl, newObj, config)
+    return response.data
+  }catch (error) {
+    if (error.response) {
+      return {errorTitle: error.response.data.error, statusCode: error.response.status}
+    }
   }
-  const response = await axios.post(baseUrl, newObj, config)
-  return response.data
 }
 
 export default { setToken, getAll, create }

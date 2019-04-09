@@ -16,8 +16,15 @@ blogsRouter.get('/', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   //Luodaan uusi blogi-olio pyynnön perusteella
   const blog = new Blog(request.body)
+  
   try {
-    //console.log('blogsRouterista: token: ', request.token);
+    //Tarkistetaan että url ja title on annettu
+    if(blog.title === '' || blog.title === null) {
+      return response.status(400).json({error: 'title missing'})
+    }
+    if(blog.url === '' || blog.url === null) {
+      return response.status(400).json({error: 'url missing'})
+    }
     if (!request.token) {
       return response.status(401).json({error: 'token missing or invalid'})
     }
@@ -25,13 +32,12 @@ blogsRouter.post('/', async (request, response, next) => {
     if (!decodedToken.id) {
       return response.status(401).json({error: 'token missing or invalid'})
     }
+    
     //Haetaan käyttäjä kannasta ja annetaan se viitteeksi blogille
     const user = await User.findById(decodedToken.id)
     blog.user = user.id
-
-    //Myös tässä voisi tehdä tarkistuksen että url ja title on annettu ja likes default setting
-
     const savedBlog = await blog.save() //Talletetaan blogi
+  
     user.blogs = user.blogs.concat(savedBlog._id) //Lisätään blogi käyttäjän alle
     await user.save()
     response.status(201).json(savedBlog.toJSON())

@@ -1,7 +1,7 @@
 import React from 'react'
 import blogService from '../services/blogs'
 
-const LogoutButton = ({updateUser, setMessage}) => {
+const LogoutButton = ({updateUser, addMessage}) => {
 
   const handleLogout = async (event) => {
     event.preventDefault()
@@ -10,8 +10,9 @@ const LogoutButton = ({updateUser, setMessage}) => {
       window.localStorage.clear()
       blogService.setToken(null)
       updateUser(null)
+      addMessage('Hei hei!', false)
     } catch(exception) {
-      setMessage('uloskirjaus ei onnistunut')
+      addMessage('uloskirjaus ei onnistunut', true)
     }
   }
 

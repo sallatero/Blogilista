@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
 
-const LoginForm = ({updateUser, setMessage}) => {
+const LoginForm = ({updateUser, addMessage}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -15,18 +15,29 @@ const LoginForm = ({updateUser, setMessage}) => {
     event.preventDefault()
     console.log('logging in with', username, password)
     try {
-      const user = await loginService.login({
+      const response = await loginService.login({
         username, password
       })
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      blogService.setToken(user.token)
-      resetUserFields()
-      updateUser(user)
-
+      if (response.errorTitle && response.statusCode) { //Authentication problem
+        resetUserFields()
+        addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`, true)
+        return
+      } else {
+        updateUser(response)
+        resetUserFields()
+        addMessage('Kirjautuminen onnistui', false)
+      
+        const user = response
+        window.localStorage.setItem(
+          'loggedBlogappUser', JSON.stringify(user)
+        )
+        blogService.setToken(user.token)
+        resetUserFields()
+        updateUser(user)
+        addMessage(`Tervetuloa ${user.name}`, false)
+      }
     } catch(exception) {
-      setMessage('käyttäjätunnus tai salasana virheellinen')
+      addMessage('kirjautuminen epäonnistui', true)
     }
   }
 
