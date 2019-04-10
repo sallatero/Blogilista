@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
+import Togglable from './components/Togglable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -88,18 +89,25 @@ const App = () => {
     }
   }
 
-  const handleUsernameChange = ({target}) => setUsername(target.value)
-  const handlePasswordChange = ({target}) => setPassword(target.value)
-
+  /*
+    loginForm()-funktio kutsuu komponentteja
+    - Togglable
+      joka hoitaa näkyvyyden vaihtelun käärimällä lapsielementin <LoginForm>
+      itsensä sisään
+    - LoginForm
+      joka huolehtii itse kirjautumislomakkeen ulkoasusta
+  */
   const loginform = () => {
     return (
-    <LoginForm 
-      handleSubmit={handleLogin} 
-      handleUsernameChange={handleUsernameChange} 
-      handlePasswordChange={handlePasswordChange} 
-      username={username}
-      password={password}
-    />  
+      <Togglable buttonLabel='login'>
+        <LoginForm 
+          handleSubmit={handleLogin} 
+          handleUsernameChange={({ target }) => setUsername(target.value)} 
+          handlePasswordChange={({ target }) => setPassword(target.value)} 
+          username={username}
+          password={password}
+        />
+      </Togglable>
     )
   }
 
@@ -142,24 +150,29 @@ const App = () => {
     }
   }
 
-  const handleBlogTitleChange = ({target}) => setNewBlogTitle(target.value)
-  const handleBlogAuthorChange = ({target}) => setNewBlogAuthor(target.value)
-  const handleBlogUrlChange = ({target}) => setNewBlogUrl(target.value)
-  const handleBlogLikesChange = ({target}) => setNewBlogLikes(target.value)
-
+  /*
+    blogForm()-funktio kutsuu komponentteja
+    - Togglable
+      joka hoitaa näkyvyyden vaihtelun käärimällä lapsielementin <BlogForm>
+      itsensä sisään
+    - BlogForm
+      joka huolehtii itse bloginlisäyslomakkeen ulkoasusta
+  */
   const blogform = () => {
     return (
-    <BlogForm 
-      handleSubmit={handleBlogAdd}
-      handleBlogTitleChange={handleBlogTitleChange}
-      handleBlogAuthorChange={handleBlogAuthorChange}
-      handleBlogUrlChange={handleBlogUrlChange}
-      handleBlogLikesChange={handleBlogLikesChange}
-      blogTitle={newBlogTitle}
-      blogAuthor={newBlogAuthor}
-      blogUrl={newBlogUrl}
-      blogLikes={newBlogLikes}
-    />
+      <Togglable buttonLabel='new blog'>
+        <BlogForm 
+          handleSubmit={handleBlogAdd}
+          handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
+          handleBlogAuthorChange={({ target }) => setNewBlogAuthor(target.value)}
+          handleBlogUrlChange={({ target }) => setNewBlogUrl(target.value)}
+          handleBlogLikesChange={({ target }) => setNewBlogLikes(target.value)}
+          blogTitle={newBlogTitle}
+          blogAuthor={newBlogAuthor}
+          blogUrl={newBlogUrl}
+          blogLikes={newBlogLikes}
+        />
+    </Togglable>
     )
   } 
 
