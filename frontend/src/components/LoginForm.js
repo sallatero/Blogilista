@@ -1,10 +1,53 @@
-import React, { useState } from 'react'
-import loginService from '../services/login'
-import blogService from '../services/blogs'
+import React from 'react'
+//import loginService from '../services/login'
+//import blogService from '../services/blogs'
 
-const LoginForm = ({updateUser, addMessage}) => {
+const LoginForm = ({
+  handleSubmit, 
+  handleUsernameChange,
+  handlePasswordChange,
+  username,
+  password 
+}) => {
+  return (
+    <div>
+      <h2>Kirjaudu sisään</h2>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          Käyttäjätunnus 
+            <input 
+              type="text" 
+              value={username} 
+              name="Username"
+              onChange={handleUsernameChange}
+            />
+        </div>
+        <div>
+          Salasana
+            <input 
+              type="password" 
+              value={password} 
+              name="Password"
+              onChange={handlePasswordChange}
+            />
+        </div>
+        <button type="submit">kirjaudu</button>
+      </form>
+    </div>
+  )
+}
+
+/*
+const LoginForm = ({updateUser, addMessage, visible}) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+
+  //hideWhenVisible: Piilota login-nappi kun login-lomake on näkyvissä
+  const hideWhenVisible = { display: visible ? 'none' : '' }
+  //showWhenVisible: Näytä login-lomake kun sen tulisi olla näkyvissä
+  const showWhenVisible = { display: visible ? '' : 'none' }
+
 
   const resetUserFields = () => {
     setUsername('')
@@ -43,29 +86,34 @@ const LoginForm = ({updateUser, addMessage}) => {
 
   return (
     <div>
-      <form onSubmit={handleLogin}>
-        <div>
-          Käyttäjätunnus 
-            <input 
-              type="text" 
-              value={username} 
-              name="Username"
-              onChange={({target}) => setUsername(target.value)}
-            />
-        </div>
-        <div>
-          Salasana
-            <input 
-              type="password" 
-              value={password} 
-              name="Password"
-              onChange={({target}) => setPassword(target.value)}
-            />
-        </div>
-        <button type="submit">kirjaudu</button>
-      </form>
+      <div style={hideWhenVisible}>
+        <button onClick={() => setLoginVisible(true)}log in></button>
+      </div>
+      <div style={showWhenVisible}>
+        <h2>Kirjaudu sisään</h2>
+        <form onSubmit={handleLogin}>
+          <div>
+            Käyttäjätunnus 
+              <input 
+                type="text" 
+                value={username} 
+                name="Username"
+                onChange={({target}) => setUsername(target.value)}
+              />
+          </div>
+          <div>
+            Salasana
+              <input 
+                type="password" 
+                value={password} 
+                name="Password"
+                onChange={({target}) => setPassword(target.value)}
+              />
+          </div>
+          <button type="submit">kirjaudu</button>
+        </form>
     </div>
   )
 }
-
+*/
 export default LoginForm

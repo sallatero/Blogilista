@@ -1,7 +1,69 @@
-import React, { useState } from 'react'
-import blogService from '../services/blogs'
+import React from 'react'
+//import blogService from '../services/blogs'
 
-const BlogForm = ({addBlog, addMessage, updateUser}) => {
+const BlogForm = ({
+  handleSubmit, 
+  handleBlogTitleChange,
+  handleBlogAuthorChange,
+  handleBlogUrlChange,
+  handleBlogLikesChange,
+  blogTitle,
+  blogAuthor,
+  blogUrl,
+  blogLikes
+}) => {
+  return (
+    <div>
+      <h2>Lisää blogi</h2>
+
+      <form onSubmit={handleSubmit}>
+        <div>
+          Title
+            <input 
+              type="text" 
+              value={blogTitle} 
+              name="Title"
+              onChange={handleBlogTitleChange}
+            />
+        </div>
+        <div>
+          Author
+            <input 
+              type="text" 
+              value={blogAuthor} 
+              name="Author"
+              onChange={handleBlogAuthorChange}
+            />
+        </div>
+        <div>
+          Url
+            <input 
+              type="text" 
+              value={blogUrl} 
+              name="Url"
+              onChange={handleBlogUrlChange}
+            />
+        </div>
+        <div>
+          Likes
+            <input 
+              type="number" 
+              value={blogLikes} 
+              name="Likes"
+              onChange={handleBlogLikesChange}
+            />
+        </div>
+        <button type="submit">tallenna</button>
+      </form>
+    </div>
+  )
+}
+
+/*
+const BlogForm = ({
+  addBlog, 
+  addMessage, 
+  updateUser}) => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
@@ -41,6 +103,7 @@ const BlogForm = ({addBlog, addMessage, updateUser}) => {
 
   return (
     <div>
+      <h2>Lisää blogi</h2>
       <form onSubmit={handleBlogAdd}>
       <div>
           Title
@@ -83,5 +146,5 @@ const BlogForm = ({addBlog, addMessage, updateUser}) => {
     </div>
   )
 }
-
+*/
 export default BlogForm

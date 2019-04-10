@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
+import loginService from './services/login'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
@@ -8,15 +9,16 @@ import LogoutButton from './components/LogoutButton'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  //const [newBlogTitle, setNewBlogTitle] = useState('')
-  //const [newBlogAuthor, setNewBlogAuthor] = useState('')
-  //const [newBlogUrl, setNewBlogUrl] = useState('')
-  //const [newBlogLikes, setNewBlogLikes] = useState(0)
+  const [newBlogTitle, setNewBlogTitle] = useState('')
+  const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  const [newBlogUrl, setNewBlogUrl] = useState('')
+  const [newBlogLikes, setNewBlogLikes] = useState(0)
   const [user, setUser] = useState(null)
-  //const [username, setUsername] = useState('')
-  //const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [err, setErr] = useState(false)
+  const [loginVisible, setLoginVisible] = useState(false)
 
   //Haetaan kannasta blogit
   useEffect(() => {
@@ -34,13 +36,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
+/*
   const addBlog = (blog) => {
     setBlogs(blogs.concat(blog))
   }
   const updateUser = (user) => {
     setUser(user)
-  }
+  } */
   const addMessage = (message, err) => {
     setErr(err)
     setMessage(message)
@@ -49,29 +51,128 @@ const App = () => {
       }, 3000)
   }
 
+  const resetBlogFields = () => {
+    setNewBlogTitle('')
+    setNewBlogAuthor('')
+    setNewBlogUrl('')
+    setNewBlogLikes(0)
+  }
+
+  const handleLogin = async (event) => {
+    event.preventDefault()
+    console.log('logging in with', username, password)
+    try {
+      const response = await loginService.login({
+        username, password
+      })
+      if (response.errorTitle && response.statusCode) { //Authentication problem
+        setUsername('')
+        setPassword('')
+        addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`, true)
+        return
+      } else {
+        const user = response        
+        setUser(user)
+        setUsername('')
+        setPassword('')
+        addMessage('Kirjautuminen onnistui', false)
+      
+        window.localStorage.setItem(
+          'loggedBlogappUser', JSON.stringify(user)
+        )
+        blogService.setToken(user.token)
+        addMessage(`Tervetuloa ${user.name}`, false)
+      }
+    } catch(exception) {
+      addMessage('kirjautuminen epäonnistui', true)
+    }
+  }
+
+  const handleUsernameChange = ({target}) => setUsername(target.value)
+  const handlePasswordChange = ({target}) => setPassword(target.value)
+
   const loginform = () => {
     return (
-    <LoginForm addMessage={addMessage} updateUser={updateUser}/>  
+    <LoginForm 
+      handleSubmit={handleLogin} 
+      handleUsernameChange={handleUsernameChange} 
+      handlePasswordChange={handlePasswordChange} 
+      username={username}
+      password={password}
+    />  
     )
   }
 
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    console.log('logging out user')
+    try {
+      window.localStorage.clear()
+      blogService.setToken(null)
+      setUser(null)
+      addMessage('Hei hei!', false)
+    } catch(exception) {
+      addMessage('uloskirjaus ei onnistunut', true)
+    }
+  }
+
+
+  const handleBlogAdd = async (event) => {
+    event.preventDefault()
+    console.log('adding a new blog', newBlogTitle)
+    try {
+      const response = await blogService.create({
+        title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
+      })
+      if (response.errorTitle && response.statusCode) { //Validation problem
+        console.log('validation issue: ', response)
+        resetBlogFields()
+        addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
+      } else {
+        setBlogs(blogs.concat(response))
+        resetBlogFields()
+        addMessage('blogin lisääminen onnistui', false)
+      }
+    } catch(exception) {
+      //Jos käyttäjän token on vanhentunut
+      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.', true)
+      window.localStorage.clear()
+      blogService.setToken(null)
+      setUser(null)
+    }
+  }
+
+  const handleBlogTitleChange = ({target}) => setNewBlogTitle(target.value)
+  const handleBlogAuthorChange = ({target}) => setNewBlogAuthor(target.value)
+  const handleBlogUrlChange = ({target}) => setNewBlogUrl(target.value)
+  const handleBlogLikesChange = ({target}) => setNewBlogLikes(target.value)
+
   const blogform = () => {
     return (
-      <BlogForm addBlog={addBlog} addMessage={addMessage} updateUser={updateUser}/>
+    <BlogForm 
+      handleSubmit={handleBlogAdd}
+      handleBlogTitleChange={handleBlogTitleChange}
+      handleBlogAuthorChange={handleBlogAuthorChange}
+      handleBlogUrlChange={handleBlogUrlChange}
+      handleBlogLikesChange={handleBlogLikesChange}
+      blogTitle={newBlogTitle}
+      blogAuthor={newBlogAuthor}
+      blogUrl={newBlogUrl}
+      blogLikes={newBlogLikes}
+    />
     )
   } 
-  console.log('user: ', user)
 
   return (
     <div>
-      <h1>Blogilista</h1>
+      <h1>Blogilista-sovellus</h1>
       <Notification message={message} err={err}/>
       
       {user === null ?
-        <div><h2>Log in</h2>{loginform()}</div> :
+        <div>{loginform()}</div> :
         <div>
           <p>{user.name} logged in</p>
-          <LogoutButton updateUser={updateUser} addMessage={addMessage}/>
+          <LogoutButton handleSubmit={handleLogout} />
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>
