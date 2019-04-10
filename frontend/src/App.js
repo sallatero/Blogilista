@@ -89,6 +89,9 @@ const App = () => {
     }
   }
 
+  //Ref loginformiin
+  const loginFormRef = React.createRef()
+
   /*
     loginForm()-funktio kutsuu komponentteja
     - Togglable
@@ -99,7 +102,7 @@ const App = () => {
   */
   const loginform = () => {
     return (
-      <Togglable buttonLabel='login'>
+      <Togglable buttonLabel="login" ref={loginFormRef}>
         <LoginForm 
           handleSubmit={handleLogin} 
           handleUsernameChange={({ target }) => setUsername(target.value)} 
@@ -167,7 +170,7 @@ const App = () => {
   */
   const blogform = () => {
     return (
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm 
           handleSubmit={handleBlogAdd}
           handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
@@ -181,7 +184,7 @@ const App = () => {
         />
     </Togglable>
     )
-  } 
+  }
 
   return (
     <div>
