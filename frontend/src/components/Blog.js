@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, addLike }) => {
   const [showAll, setShowAll] = useState(false)
 
   const blogStyle = {
@@ -18,7 +18,12 @@ const Blog = ({ blog }) => {
     setShowAll(!showAll)
   }
 
-  console.log('blog.user on: ', blog.user)
+  const addLikes = () => {
+    console.log('LIKE painettu.')
+    console.log('blog.title: ', blog.title)
+    console.log('blog.id: ', blog.id)
+  }
+  
   return (
     <div style={blogStyle}>
       <div onClick={toggleShowAll}>
@@ -26,7 +31,7 @@ const Blog = ({ blog }) => {
       </div>
       <div style={showAllInfo}>
         <p>{blog.url}</p> 
-        <p>{blog.likes} likes <button>like</button></p>
+        <p>{blog.likes} likes <button onClick={() => addLike(blog.id)}>like</button></p>
         <p>added by {blog.user ? blog.user.name : ''}</p>
       </div>
     </div>

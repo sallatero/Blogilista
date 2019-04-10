@@ -127,6 +127,17 @@ const App = () => {
     }
   }
 
+  const handleBlogLike = async (id) => {
+    const oldVersion = blogs.find(b => b.id === id)
+    const newVersion = {...oldVersion, likes: oldVersion.likes + 1}
+    try {
+      const response = await blogService.update(id, newVersion)
+      setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
+      addMessage('blogin likettäminen onnistui', false)
+    }catch (exception) {
+      addMessage('Blogin likettäminen ei onnistunut', true)
+    }
+  }
 
   const handleBlogAdd = async (event) => {
     event.preventDefault()
@@ -139,12 +150,14 @@ const App = () => {
       const response = await blogService.create({
         title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
       })
+      console.log('response: ', response)
       if (response.errorTitle && response.statusCode) { //Validation problem
         console.log('validation issue: ', response)
         resetBlogFields()
         addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
       } else {
         setBlogs(blogs.concat(response))
+        console.log('BLOGS: ', blogs)
         resetBlogFields()
         addMessage('blogin lisääminen onnistui', false)
       }
@@ -199,7 +212,7 @@ const App = () => {
           {blogform()}
           <h2>blogs</h2>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} addLike={handleBlogLike}/>
           )}
         </div>
       }

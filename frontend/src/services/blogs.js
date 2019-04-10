@@ -14,6 +14,21 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const update = async (id, newVersion) => {
+  try {
+    const config = {
+      headers: { Authorization: token},
+    }
+    const response = await axios.put(`${baseUrl}/${id}`, newVersion, config)
+    return response
+  }catch (error) {
+    console.log('error: ', error)
+    if (error.response) {
+      return {errorTitle: error.response.data.error, statusCode: error.response.status}
+    }
+  }
+}
+
 //data: title, author, url, likes, token
 const create = async newObj => {
   try {
@@ -22,6 +37,7 @@ const create = async newObj => {
       headers: { Authorization: token},
     }
     const response = await axios.post(baseUrl, newObj, config)
+    console.log('response: ', response)
     return response.data
   }catch (error) {
     if (error.response) {
@@ -30,4 +46,4 @@ const create = async newObj => {
   }
 }
 
-export default { setToken, getAll, create }
+export default { setToken, getAll, create, update }

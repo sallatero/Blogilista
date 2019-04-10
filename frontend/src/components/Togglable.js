@@ -7,13 +7,14 @@ Näin Togglable pääsee käsiksi sille määriteltyyn refiin (esim. Appin BlogF
 Togglable käyttää useImperativeHandle-hookia tarjotakseen sisäistä funktiotaan
 toggleVisibility ulkopuolelta kutsuttavaksi.
 */
-//hideWhenVisible: piilotetaan kun login-lomake on näkyvissä
-//showWhenVisible: näytetään kun login-lomakkeen tulisi olla näkyvissä
 
 const Togglable = React.forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
 
+  //hideWhenVisible: piilotetaan kun login-lomake on näkyvissä
   const hideWhenVisible = { display: visible ? 'none' : '' }
+
+  //showWhenVisible: näytetään kun login-lomakkeen tulisi olla näkyvissä
   const showWhenVisible = { display: visible ? '' : 'none' }
 
   const toggleVisibility = () => {

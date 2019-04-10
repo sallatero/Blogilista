@@ -35,9 +35,10 @@ blogsRouter.post('/', async (request, response, next) => {
     
     //Haetaan käyttäjä kannasta ja annetaan se viitteeksi blogille
     const user = await User.findById(decodedToken.id)
+    console.log('user: ', user)
     blog.user = user.id
     const savedBlog = await blog.save() //Talletetaan blogi
-  
+    console.log('savedBlog: ', savedBlog)
     user.blogs = user.blogs.concat(savedBlog._id) //Lisätään blogi käyttäjän alle
     await user.save()
     response.status(201).json(savedBlog.toJSON())
@@ -74,25 +75,28 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 blogsRouter.put('/:id', async (request, response, next) => {
   
   try {
-    const body = request.body
+    if (!request.token) {
+      return response.status(401).json({error: 'token missing or invalid'})
+    }
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!decodedToken.id) {
+      return response.status(401).json({error: 'token missing or invalid'})
+    }
 
-    const blog = {
+    const body = request.body
+    const putThis = {
+      title: body.title,
+      author: body.author,
+      url: body.url,
       likes: body.likes
     }
-    const exists = await Blog.findById(request.params.id)
-    if (!exists) {
-      response.status(404).end()
-      return
+    const oldVersion = await Blog.findById(request.params.id)
+    if (!oldVersion) {
+      return response.status(404).json({error: 'blog does not exist'})
     }
-    if (!body.likes) {
-      response.status(400).end()
-      return
-    }
-
-    const modified = await Blog.findByIdAndUpdate(request.params.id, blog, {new: true})
-
-    if (modified) {
-      response.status(204).json(modified.toJSON())
+    const newVersion = await Blog.findByIdAndUpdate(request.params.id, putThis, {new: true})
+    if (newVersion) {
+      response.status(204).json(newVersion.toJSON())
     } else {
       response.status(404).end()
     }
