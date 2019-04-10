@@ -1,6 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useImperativeHandle } from 'react'
 
-const Togglable = (props) => {
+/*
+Komponentin Togglable luova funktio on kääritty funktiokutsun forwardRef sisälle.
+Näin Togglable pääsee käsiksi sille määriteltyyn refiin (esim. Appin BlogForm).
+
+Togglable käyttää useImperativeHandle-hookia tarjotakseen sisäistä funktiotaan
+toggleVisibility ulkopuolelta kutsuttavaksi.
+*/
+const Togglable = React.forwardRef((props, ref) => {
   const [visible, setVisible] = useState(false)
 
   //hideWhenVisible: piilotetaan kun login-lomake on näkyvissä
@@ -11,6 +18,12 @@ const Togglable = (props) => {
   const toggleVisibility = () => {
     setVisible(!visible)
   }
+
+  useImperativeHandle(ref, () => {
+    return {
+      toggleVisibility
+    }
+  })
 
   /* 
   Eka div (hideWhenVisible) on sellainen nappula, joka tuo esiin sen 'masterin'.
@@ -30,6 +43,6 @@ const Togglable = (props) => {
       </div>
     </div>
   )
-}
+})
 
 export default Togglable

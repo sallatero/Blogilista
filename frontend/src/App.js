@@ -127,6 +127,10 @@ const App = () => {
 
   const handleBlogAdd = async (event) => {
     event.preventDefault()
+    /* blogFormRef-refin ja Togglablen hookin ansiosta
+      voidaan tässä kutsua Togglablen funktiota toggleVisibility, 
+      joka piilottaa bloginlisäysformin. */
+    blogFormRef.current.toggleVisibility()
     console.log('adding a new blog', newBlogTitle)
     try {
       const response = await blogService.create({
@@ -150,6 +154,9 @@ const App = () => {
     }
   }
 
+  //Ref blogiformiin
+  const blogFormRef = React.createRef()
+
   /*
     blogForm()-funktio kutsuu komponentteja
     - Togglable
@@ -160,7 +167,7 @@ const App = () => {
   */
   const blogform = () => {
     return (
-      <Togglable buttonLabel='new blog'>
+      <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm 
           handleSubmit={handleBlogAdd}
           handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
