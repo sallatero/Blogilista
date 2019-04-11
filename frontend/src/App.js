@@ -150,14 +150,14 @@ const App = () => {
       const response = await blogService.create({
         title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
       })
-      console.log('response: ', response)
+      console.log('App response: ', response) //user ei ole {}
       if (response.errorTitle && response.statusCode) { //Validation problem
         console.log('validation issue: ', response)
         resetBlogFields()
         addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
       } else {
         setBlogs(blogs.concat(response))
-        console.log('BLOGS: ', blogs)
+        //console.log('BLOGS: ', blogs)
         resetBlogFields()
         addMessage('blogin lisääminen onnistui', false)
       }
@@ -181,15 +181,20 @@ const App = () => {
     - BlogForm
       joka huolehtii itse bloginlisäyslomakkeen ulkoasusta
   */
+  const handleTitle = ({ target }) => setNewBlogTitle(target.value)
+  const handleAuthor = ({ target }) => setNewBlogAuthor(target.value) 
+  const handleUrl = ({ target }) => setNewBlogUrl(target.value)
+  const handleLikes = ({ target }) => setNewBlogLikes(target.value)
+
   const blogform = () => {
     return (
       <Togglable buttonLabel="new blog" ref={blogFormRef}>
         <BlogForm 
           handleSubmit={handleBlogAdd}
-          handleBlogTitleChange={({ target }) => setNewBlogTitle(target.value)}
-          handleBlogAuthorChange={({ target }) => setNewBlogAuthor(target.value)}
-          handleBlogUrlChange={({ target }) => setNewBlogUrl(target.value)}
-          handleBlogLikesChange={({ target }) => setNewBlogLikes(target.value)}
+          handleBlogTitleChange={handleTitle}
+          handleBlogAuthorChange={handleAuthor}
+          handleBlogUrlChange={handleUrl}
+          handleBlogLikesChange={handleLikes}
           blogTitle={newBlogTitle}
           blogAuthor={newBlogAuthor}
           blogUrl={newBlogUrl}
@@ -199,6 +204,7 @@ const App = () => {
     )
   }
 
+  //console.log('BLOGS ennen returnia: ', blogs)
   return (
     <div>
       <h1>Blogilista-sovellus</h1>

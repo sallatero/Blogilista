@@ -16,6 +16,7 @@ blogsRouter.get('/', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   //Luodaan uusi blogi-olio pyynnön perusteella
   const blog = new Blog(request.body)
+  console.log('blogsRouter.postissa blog: ', blog)
   
   try {
     //Tarkistetaan että url ja title on annettu
@@ -33,15 +34,30 @@ blogsRouter.post('/', async (request, response, next) => {
       return response.status(401).json({error: 'token missing or invalid'})
     }
     
-    //Haetaan käyttäjä kannasta ja annetaan se viitteeksi blogille
+    //Haetaan käyttäjä kannasta
     const user = await User.findById(decodedToken.id)
-    console.log('user: ', user)
-    blog.user = user.id
-    const savedBlog = await blog.save() //Talletetaan blogi
+    console.log('etsitään user: ', user) //username, name, id
+    
+    // Lisätään blogiin user-id
+    blog.user = user.id 
+    console.log('blog with user-id: ', blog)
+    //Talletetaan blogi kantaan
+    const savedBlog = await blog.save() 
     console.log('savedBlog: ', savedBlog)
-    user.blogs = user.blogs.concat(savedBlog._id) //Lisätään blogi käyttäjän alle
-    await user.save()
-    response.status(201).json(savedBlog.toJSON())
+
+    //Lisätään blog-id käyttäjän taulukkoon blogs 
+    user.blogs = user.blogs.concat(savedBlog._id) 
+    //Talletetaan user kantaan
+    const savedUser = await user.save()
+    console.log('savedUser: ', savedUser)
+
+    //Tallennetaan user-olio (vain kentät username, name ja id) blogin kenttään user ja palautetaan se JSONina
+    const u = savedUser.toJSON()
+    const b = savedBlog.toJSON()
+    b.user = { username: u.username, name: u.name, id: u.id}
+    console.log('B: ', b)
+    response.status(201).json(b)
+    //response.status(201).json(blog.toJSON())
   } catch(exception) {
     next(exception)
   }

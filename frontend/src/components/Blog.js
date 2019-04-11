@@ -11,6 +11,8 @@ const Blog = ({ blog, addLike }) => {
     marginBottom: 5
   }
 
+  console.log('Blog props: ', blog) //uuden blogin user ei ole {}
+
   //showWhenVisible: näytetään kun login-lomakkeen tulisi olla näkyvissä
   const showAllInfo = { display: showAll ? '' : 'none' }
 
@@ -27,7 +29,7 @@ const Blog = ({ blog, addLike }) => {
   return (
     <div style={blogStyle}>
       <div onClick={toggleShowAll}>
-        {blog.title} {blog.author}
+        {blog.title} {blog.author} {blog.user ? blog.user.name : ''}
       </div>
       <div style={showAllInfo}>
         <p>{blog.url}</p> 

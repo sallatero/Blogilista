@@ -2,7 +2,7 @@ import React, { useState, useImperativeHandle } from 'react'
 
 /*
 Komponentin Togglable luova funktio on kääritty funktiokutsun forwardRef sisälle.
-Näin Togglable pääsee käsiksi sille määriteltyyn refiin (esim. Appin BlogForm).
+Näin lapsikomponentti (esim. Appin BlogForm) pääsee käsiksi tähän Togglable-komponenttiin.
 
 Togglable käyttää useImperativeHandle-hookia tarjotakseen sisäistä funktiotaan
 toggleVisibility ulkopuolelta kutsuttavaksi.

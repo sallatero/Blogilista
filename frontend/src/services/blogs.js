@@ -37,7 +37,7 @@ const create = async newObj => {
       headers: { Authorization: token},
     }
     const response = await axios.post(baseUrl, newObj, config)
-    console.log('response: ', response)
+    console.log('blogService response: ', response) //user ei ole {}
     return response.data
   }catch (error) {
     if (error.response) {
