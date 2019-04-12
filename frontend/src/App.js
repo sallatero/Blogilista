@@ -19,8 +19,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [err, setErr] = useState(false)
-  const [loginVisible, setLoginVisible] = useState(false)
-
+  
   //Haetaan kannasta blogit
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -213,7 +212,7 @@ const App = () => {
 
   const blogform = () => {
     return (
-      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+      <Togglable buttonLabel='lisää blogi' ref={blogFormRef}>
         <BlogForm 
           handleSubmit={handleBlogAdd}
           handleBlogTitleChange={handleTitle}

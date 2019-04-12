@@ -1,6 +1,5 @@
 import React from 'react'
-//import loginService from '../services/login'
-//import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
 const LoginForm = ({
   handleSubmit, 
@@ -9,6 +8,15 @@ const LoginForm = ({
   username,
   password 
 }) => {
+  
+  LoginForm.propTypes = {
+    handleSubmit: PropTypes.func.isRequired,
+    handleUsernameChange: PropTypes.func.isRequired,
+    handlePasswordChange: PropTypes.func.isRequired,
+    username: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired
+  }
+
   return (
     <div>
       <h2>Kirjaudu sisään</h2>

@@ -1,4 +1,5 @@
 import React, { useState, useImperativeHandle } from 'react'
+import PropTypes from 'prop-types'
 
 /*
 Komponentin Togglable luova funktio on kääritty funktiokutsun forwardRef sisälle.
@@ -27,6 +28,10 @@ const Togglable = React.forwardRef((props, ref) => {
     }
   })
 
+  Togglable.propTypes = {
+    buttonLabel: PropTypes.string.isRequired
+  }
+
   /* 
   Eka div (hideWhenVisible) on sellainen nappula, joka tuo esiin sen 'masterin'.
   Nappula on piilossa kun sen 'master' on näkyvillä
@@ -45,6 +50,7 @@ const Togglable = React.forwardRef((props, ref) => {
       </div>
     </div>
   )
-})
+}
+)
 
 export default Togglable
