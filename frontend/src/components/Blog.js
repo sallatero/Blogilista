@@ -11,25 +11,18 @@ const Blog = ({ blog, addLike }) => {
     marginBottom: 5
   }
 
-  console.log('Blog props: ', blog) //uuden blogin user ei ole {}
-
   //showWhenVisible: näytetään kun login-lomakkeen tulisi olla näkyvissä
   const showAllInfo = { display: showAll ? '' : 'none' }
 
   const toggleShowAll = () => {
     setShowAll(!showAll)
   }
-
-  const addLikes = () => {
-    console.log('LIKE painettu.')
-    console.log('blog.title: ', blog.title)
-    console.log('blog.id: ', blog.id)
-  }
   
+  //console.log('BLOG Props: ', blog)
   return (
     <div style={blogStyle}>
       <div onClick={toggleShowAll}>
-        {blog.title} {blog.author} {blog.user ? blog.user.name : ''}
+        {blog.title} {blog.author}
       </div>
       <div style={showAllInfo}>
         <p>{blog.url}</p> 

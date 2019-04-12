@@ -37,13 +37,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-/*
-  const addBlog = (blog) => {
-    setBlogs(blogs.concat(blog))
-  }
-  const updateUser = (user) => {
-    setUser(user)
-  } */
+
   const addMessage = (message, err) => {
     setErr(err)
     setMessage(message)
@@ -150,14 +144,22 @@ const App = () => {
       const response = await blogService.create({
         title: newBlogTitle, author: newBlogAuthor, url: newBlogUrl, likes: newBlogLikes
       })
-      console.log('App response: ', response) //user ei ole {}
-      if (response.errorTitle && response.statusCode) { //Validation problem
-        console.log('validation issue: ', response)
+      if (response.errorTitle && response.statusCode) { // Problem
+        console.log('Problem adding blog: ', response)
         resetBlogFields()
+        if (response.errorTitle === 'expired token') {
+          try {
+            window.localStorage.clear()
+            blogService.setToken(null)
+            setUser(null)
+            addMessage('Kirjaudu sisään uudelleen!', false)
+          } catch(exception) {
+            addMessage('uloskirjaus ei onnistunut', true)
+          }
+        }
         addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
       } else {
         setBlogs(blogs.concat(response))
-        //console.log('BLOGS: ', blogs)
         resetBlogFields()
         addMessage('blogin lisääminen onnistui', false)
       }
@@ -204,7 +206,6 @@ const App = () => {
     )
   }
 
-  //console.log('BLOGS ennen returnia: ', blogs)
   return (
     <div>
       <h1>Blogilista-sovellus</h1>
@@ -217,8 +218,8 @@ const App = () => {
           <LogoutButton handleSubmit={handleLogout} />
           {blogform()}
           <h2>blogs</h2>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} addLike={handleBlogLike}/>
+          {blogs.sort((a, b) => b.likes - a.likes).map(b =>
+            <Blog key={b.id} blog={b} addLike={handleBlogLike}/>
           )}
         </div>
       }

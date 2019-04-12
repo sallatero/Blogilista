@@ -14,7 +14,7 @@ blogsRouter.get('/', async (request, response, next) => {
 })
 
 blogsRouter.post('/', async (request, response, next) => {
-  //Luodaan uusi blogi-olio pyynnön perusteella
+  //Luodaan uusu Schema-olio pyynnön perusteella
   const blog = new Blog(request.body)
   console.log('blogsRouter.postissa blog: ', blog)
   
@@ -57,7 +57,6 @@ blogsRouter.post('/', async (request, response, next) => {
     b.user = { username: u.username, name: u.name, id: u.id}
     console.log('B: ', b)
     response.status(201).json(b)
-    //response.status(201).json(blog.toJSON())
   } catch(exception) {
     next(exception)
   }

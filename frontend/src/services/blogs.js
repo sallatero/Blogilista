@@ -36,8 +36,9 @@ const create = async newObj => {
     const config = {
       headers: { Authorization: token},
     }
+    //response.data on haluamamme blogiolio, jolla user-kentässä user-olio
     const response = await axios.post(baseUrl, newObj, config)
-    console.log('blogService response: ', response) //user ei ole {}
+    console.log('blogService response: ', response)
     return response.data
   }catch (error) {
     if (error.response) {
