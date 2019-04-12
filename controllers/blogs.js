@@ -77,7 +77,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
     const deletable = await Blog.findByIdAndRemove(request.params.id)
 
     if (deletable) {
-      //console.log('tietokannasta löytyi id:llä ', request.params.id)
+      console.log('poistettava blogi löytyi', request.params.id)
       response.status(204).end()
     } else {
       response.status(204).end()

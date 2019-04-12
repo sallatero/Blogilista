@@ -172,6 +172,29 @@ const App = () => {
     }
   }
 
+  const handleBlogDelete = async (id) => {
+    try {
+      const blog = blogs.find(b => b.id === id)
+      if (!blog) {
+        addMessage('Blogia ei löytynyt', true)
+      }
+      window.confirm(`Haluatko varmasti poistaa blogin ${blog.title}?`)
+      const resp = await blogService.remove(id)
+      const filtered = blogs.filter((b) => {
+        return b.id !== id
+      })
+      setBlogs(filtered)
+      addMessage('blogin poisto onnistui', false)
+    } catch (exception) {
+      console.log('exception: ', exception)
+      //Jos käyttäjän token on vanhentunut
+      addMessage('Istuntosi on vanhentunut. Kirjaudu uudelleen sisään.', true)
+      window.localStorage.clear()
+      blogService.setToken(null)
+      setUser(null)
+    }
+  }
+
   //Ref blogiformiin
   const blogFormRef = React.createRef()
 
@@ -219,7 +242,7 @@ const App = () => {
           {blogform()}
           <h2>blogs</h2>
           {blogs.sort((a, b) => b.likes - a.likes).map(b =>
-            <Blog key={b.id} blog={b} addLike={handleBlogLike}/>
+            <Blog key={b.id} blog={b} addLike={handleBlogLike} deleteBlog={handleBlogDelete}/>
           )}
         </div>
       }

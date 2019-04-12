@@ -29,6 +29,22 @@ const update = async (id, newVersion) => {
   }
 }
 
+const remove = async (id) => {
+  try {
+    const config = {
+      headers: { Authorization: token},
+    }
+    const response = await axios.delete(`${baseUrl}/${id}`, config)
+    console.log('delete response: ', response)
+    return response
+  }catch (error) {
+    console.log('error: ', error)
+    if (error.response) {
+      return {errorTitle: error.response.data.error, statusCode: error.response.status}
+    }
+  }
+}
+
 //data: title, author, url, likes, token
 const create = async newObj => {
   try {
@@ -47,4 +63,4 @@ const create = async newObj => {
   }
 }
 
-export default { setToken, getAll, create, update }
+export default { setToken, getAll, create, update, remove }
