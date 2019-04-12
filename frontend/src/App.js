@@ -242,7 +242,7 @@ const App = () => {
           {blogform()}
           <h2>blogs</h2>
           {blogs.sort((a, b) => b.likes - a.likes).map(b =>
-            <Blog key={b.id} blog={b} addLike={handleBlogLike} deleteBlog={handleBlogDelete}/>
+            <Blog key={b.id} blog={b} addLike={handleBlogLike} deleteBlog={handleBlogDelete} username={user.username}/>
           )}
         </div>
       }

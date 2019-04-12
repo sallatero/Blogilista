@@ -1,7 +1,12 @@
 import React, { useState } from 'react'
 
-const Blog = ({ blog, addLike, deleteBlog }) => {
+const Blog = ({ blog, addLike, deleteBlog, username }) => {
   const [showAll, setShowAll] = useState(false)
+  console.log('BLOG Props: ', blog)
+  let deletable = true
+  if (blog.user) {
+    deletable = blog.user.username === username
+  }
 
   const blogStyle = {
     paddingTop: 10,
@@ -11,14 +16,15 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
     marginBottom: 5
   }
 
-  //showWhenVisible: näytetään kun login-lomakkeen tulisi olla näkyvissä
+  //showAllInfo: näytetään kun blogi on "avattu"
   const showAllInfo = { display: showAll ? '' : 'none' }
+  //ableToDelete: blogin delete-nappula näkyy vain blogin lisänneelle käyttäjälle
+  const ableToDelete = { display: deletable ? '' : 'none'}
 
   const toggleShowAll = () => {
     setShowAll(!showAll)
   }
   
-  //console.log('BLOG Props: ', blog)
   return (
     <div style={blogStyle}>
       <div onClick={toggleShowAll}>
@@ -28,7 +34,9 @@ const Blog = ({ blog, addLike, deleteBlog }) => {
         <p>{blog.url}</p> 
         <p>{blog.likes} likes <button onClick={() => addLike(blog.id)}>like</button></p>
         <p>added by {blog.user ? blog.user.name : ''}</p>
-        <p><button onClick={() => deleteBlog(blog.id)}>delete</button></p>
+        <div style={ableToDelete}>
+          <p><button onClick={() => deleteBlog(blog.id)}>delete</button></p>
+        </div>
       </div>
     </div>
   )
