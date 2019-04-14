@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { nextTick } from 'q';
 const baseUrl = '/api/blogs'
 
 let token = null
@@ -17,14 +16,14 @@ const getAll = () => {
 const update = async (id, newVersion) => {
   try {
     const config = {
-      headers: { Authorization: token},
+      headers: { Authorization: token },
     }
     const response = await axios.put(`${baseUrl}/${id}`, newVersion, config)
     return response
   }catch (error) {
     console.log('error: ', error)
     if (error.response) {
-      return {errorTitle: error.response.data.error, statusCode: error.response.status}
+      return { errorTitle: error.response.data.error, statusCode: error.response.status }
     }
   }
 }
@@ -32,7 +31,7 @@ const update = async (id, newVersion) => {
 const remove = async (id) => {
   try {
     const config = {
-      headers: { Authorization: token},
+      headers: { Authorization: token },
     }
     const response = await axios.delete(`${baseUrl}/${id}`, config)
     console.log('delete response: ', response)
@@ -40,7 +39,7 @@ const remove = async (id) => {
   }catch (error) {
     console.log('error: ', error)
     if (error.response) {
-      return {errorTitle: error.response.data.error, statusCode: error.response.status}
+      return { errorTitle: error.response.data.error, statusCode: error.response.status }
     }
   }
 }
@@ -50,7 +49,7 @@ const create = async newObj => {
   try {
     console.log('create kutsuttu. newobj: ', newObj)
     const config = {
-      headers: { Authorization: token},
+      headers: { Authorization: token },
     }
     //response.data on haluamamme blogiolio, jolla user-kentässä user-olio
     const response = await axios.post(baseUrl, newObj, config)
@@ -58,7 +57,7 @@ const create = async newObj => {
     return response.data
   }catch (error) {
     if (error.response) {
-      return {errorTitle: error.response.data.error, statusCode: error.response.status}
+      return { errorTitle: error.response.data.error, statusCode: error.response.status }
     }
   }
 }

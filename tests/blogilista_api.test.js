@@ -52,11 +52,11 @@ describe('when there is initially some blogs saved', () => {
 describe('modifying likes of a blog', () => {
 
   test('a valid blog can be modified', async () => {
-    const id = "5c9cb84bbdcafaaa90712178"
+    const id = '5c9cb84bbdcafaaa90712178'
     const modified = {
-      title: "Vanelja",
-      author: "Virpi Mikkonen",
-      url: "http://vanelja.com/",
+      title: 'Vanelja',
+      author: 'Virpi Mikkonen',
+      url: 'http://vanelja.com/',
       likes: 250,
     }
     await api
@@ -68,11 +68,11 @@ describe('modifying likes of a blog', () => {
     expect(blogAtEnd.likes).toBe(modified.likes)
   })
   test('if likes is not given, nothing is modified', async () => {
-    const id = "5c9cb84bbdcafaaa90712178"
+    const id = '5c9cb84bbdcafaaa90712178'
     const modified = {
-      title: "Vanelja",
-      author: "Virpi Mikkonen",
-      url: "http://vanelja.com/"
+      title: 'Vanelja',
+      author: 'Virpi Mikkonen',
+      url: 'http://vanelja.com/'
     }
     await api
       .put(`/api/blogs/${id}`)
@@ -83,11 +83,11 @@ describe('modifying likes of a blog', () => {
     expect(blogAtEnd.likes).toBe(25)
   })
   test('if id doesnt exist, nothing is modified', async () => {
-    const id = "5c9cb84bbdcafaaa90652178"
+    const id = '5c9cb84bbdcafaaa90652178'
     const modified = {
-      title: "Vanelja",
-      author: "Virpi Mikkonen",
-      url: "http://vanelja.com/"
+      title: 'Vanelja',
+      author: 'Virpi Mikkonen',
+      url: 'http://vanelja.com/'
     }
     await api
       .put(`/api/blogs/${id}`)
@@ -105,9 +105,9 @@ describe('when there is initially some blogs saved', () => {
 
   test('a valid blog can be added', async () => {
     const newBlog = {
-      title: "Viimeistä murua myöten",
-      author: "Virpi Mikkonen",
-      url: "http://www.viimeistamuruamyoten.com/",
+      title: 'Viimeistä murua myöten',
+      author: 'Virpi Mikkonen',
+      url: 'http://www.viimeistamuruamyoten.com/',
       likes: 15,
     }
     const res = await api
@@ -124,9 +124,9 @@ describe('when there is initially some blogs saved', () => {
 
   test('if likes is not given, it is set to 0', async () => {
     const newBlog = {
-      author: "Virpi Mikkonen",
-      title: "Viimeistä murua myöten",
-      url: "http://www.viimeistamuruamyoten.com/"
+      author: 'Virpi Mikkonen',
+      title: 'Viimeistä murua myöten',
+      url: 'http://www.viimeistamuruamyoten.com/'
     }
     const response = await api.post('/api/blogs').send(newBlog)
 
@@ -141,17 +141,17 @@ describe('when there is initially some blogs saved', () => {
 
   test('blog without title and/or url is not added', async () => {
     const noTitle = {
-      author: "Virpi Mikkonen",
-      url: "http://www.viimeistamuruamyoten.com/",
+      author: 'Virpi Mikkonen',
+      url: 'http://www.viimeistamuruamyoten.com/',
       likes: 15
     }
     const noUrl= {
-      author: "Maija Miettinen",
-      title: "Jotain moskaa",
+      author: 'Maija Miettinen',
+      title: 'Jotain moskaa',
       likes: 15
     }
     const nothing= {
-      author: "Maija Miettinen",
+      author: 'Maija Miettinen',
       likes: 15
     }
 
@@ -159,17 +159,17 @@ describe('when there is initially some blogs saved', () => {
       .post('/api/blogs')
       .send(noTitle)
       .expect(400)
-    
+
     await api
       .post('/api/blogs')
       .send(noUrl)
       .expect(400)
-   
+
     await api
       .post('/api/blogs')
       .send(nothing)
       .expect(400)
-  
+
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)
   })
@@ -183,7 +183,7 @@ describe('deleting a blog', () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(helper.initialBlogs[0])
     await blogObject.save()
-  
+
     blogObject = new Blog(helper.initialBlogs[1])
     await blogObject.save()
   })
@@ -207,7 +207,7 @@ describe('deleting a blog', () => {
 
     await api
       .delete(`/api/blogs/${deleteId}`)
-    
+
     expect(204)
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd.length).toBe(helper.initialBlogs.length)

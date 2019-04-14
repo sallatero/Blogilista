@@ -9,7 +9,7 @@ const api = supertest(app)
 describe('When there is initially one user at db', () => {
   beforeEach(async () => {
     await User.deleteMany({})
-    const user = new User({username: 'root', password: 'sekret'})
+    const user = new User({ username: 'root', password: 'sekret' })
     await user.save()
   })
 
@@ -22,7 +22,7 @@ describe('When there is initially one user at db', () => {
       password: 'salainen'
     }
 
-    await api 
+    await api
       .post('/api/users')
       .send(newUser)
       .expect(201)
@@ -126,5 +126,5 @@ describe('When there is initially one user at db', () => {
 })
 
 afterAll(() => {
-    mongoose.connection.close()
-  })
+  mongoose.connection.close()
+})

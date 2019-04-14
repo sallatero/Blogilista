@@ -28,7 +28,7 @@ mongoose.connect(config.mongoUrl, { useNewUrlParser: true })
     logger.info('connected to MongoDB')
   })
   .catch((error) => {
-    logger.info('error connecting to MongoDB: ', error.message)  
+    logger.info('error connecting to MongoDB: ', error.message)
   })
 
 app.use(tokenExtractor)

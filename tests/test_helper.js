@@ -3,29 +3,29 @@ const User = require('../models/user')
 
 const initialBlogs = [
   {
-    _id: "5c9cb7eebdcafaaa90712177",
-    title: "Sallan reseptit",
-    author: "Salla",
-    url: "https://www.k-ruoka.fi/reseptit",
+    _id: '5c9cb7eebdcafaaa90712177',
+    title: 'Sallan reseptit',
+    author: 'Salla',
+    url: 'https://www.k-ruoka.fi/reseptit',
     likes: 5,
     __v: 0
   },
   {
-    _id: "5c9cb84bbdcafaaa90712178",
-    title: "Vanelja",
-    author: "Virpi Mikkonen",
-    url: "http://vanelja.com/",
+    _id: '5c9cb84bbdcafaaa90712178',
+    title: 'Vanelja',
+    author: 'Virpi Mikkonen',
+    url: 'http://vanelja.com/',
     likes: 25,
     __v: 0
   }
 ]
 
 const nonExistingId = async () => {
-    const blog = new Blog({title: 'will remove this soon'})
-    await blog.save()
-    await blog.remove()
+  const blog = new Blog({ title: 'will remove this soon' })
+  await blog.save()
+  await blog.remove()
 
-    return blog._id.toString()
+  return blog._id.toString()
 }
 
 const blogsInDb = async () => {
@@ -44,5 +44,5 @@ const usersInDb = async () => {
 }
 
 module.exports = {
-    initialBlogs, nonExistingId, blogsInDb, blogInDb, usersInDb
+  initialBlogs, nonExistingId, blogsInDb, blogInDb, usersInDb
 }

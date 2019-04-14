@@ -4,66 +4,66 @@ const listHelper = require('../utils/list_helper')
 
 const longList = [
   {
-    _id: "5c9cb7eebdcafaaa90712177",
-    title: "Sallan reseptit",
-    author: "Salla",
-    url: "https://www.k-ruoka.fi/reseptit",
+    _id: '5c9cb7eebdcafaaa90712177',
+    title: 'Sallan reseptit',
+    author: 'Salla',
+    url: 'https://www.k-ruoka.fi/reseptit',
     likes: 5,
     __v: 0
   },
   {
-    _id: "5c9cb84bbdcafaaa90712178",
-    title: "Vanelja",
-    author: "Virpi Mikkonen",
-    url: "http://vanelja.com/",
+    _id: '5c9cb84bbdcafaaa90712178',
+    title: 'Vanelja',
+    author: 'Virpi Mikkonen',
+    url: 'http://vanelja.com/',
     likes: 25,
     __v: 0
   },
   {
-    _id: "5c9cc51e5f229caff636f076",
-    title: "Tunnelmallisia makuja",
-    author: "Kaisa",
-    url: "https://tunnelmallisiamakuja.com/",
+    _id: '5c9cc51e5f229caff636f076',
+    title: 'Tunnelmallisia makuja',
+    author: 'Kaisa',
+    url: 'https://tunnelmallisiamakuja.com/',
     likes: 15,
     __v: 0
   },
   {
-    _id: "5c9cca09818504b161d2a07c",
-    title: "Liemessä",
-    author: "Jenni Häyrinen",
-    url: "http://liemessa.fi/",
+    _id: '5c9cca09818504b161d2a07c',
+    title: 'Liemessä',
+    author: 'Jenni Häyrinen',
+    url: 'http://liemessa.fi/',
     likes: 23,
     __v: 0
   },
   {
-    _id: "5c9ccfbcc4791db359635308",
-    title: "Kulinaari",
-    author: "Kaisa",
-    url: "https://kulinaari.blogspot.com/",
+    _id: '5c9ccfbcc4791db359635308',
+    title: 'Kulinaari',
+    author: 'Kaisa',
+    url: 'https://kulinaari.blogspot.com/',
     likes: 3,
     __v: 0
   },
   {
-    _id: "5c9def27331634bf397eeb34",
-    title: "Peggyn pieni punainen keittio",
-    author: "Peggy Thomas",
-    url: "https://pienipunainenkeittio.com/",
+    _id: '5c9def27331634bf397eeb34',
+    title: 'Peggyn pieni punainen keittio',
+    author: 'Peggy Thomas',
+    url: 'https://pienipunainenkeittio.com/',
     likes: 2,
     __v: 0
   },
   {
-    _id: "5c9df15574d92ec05c8fde03",
-    title: "Mansikkaheinä",
-    author: "Kaisa",
-    url: "https://mansikkaheina.blogspot.com/",
+    _id: '5c9df15574d92ec05c8fde03',
+    title: 'Mansikkaheinä',
+    author: 'Kaisa',
+    url: 'https://mansikkaheina.blogspot.com/',
     likes: 8,
     __v: 0
   },
   {
-    _id: "5c9df4a0b2a49ec0e22a1865",
-    title: "Viimeistä murua myöten",
-    author: "Virpi Mikkonen",
-    url: "http://www.viimeistamuruamyoten.com/",
+    _id: '5c9df4a0b2a49ec0e22a1865',
+    title: 'Viimeistä murua myöten',
+    author: 'Virpi Mikkonen',
+    url: 'http://www.viimeistamuruamyoten.com/',
     likes: 15,
     __v: 0
   }
@@ -89,7 +89,7 @@ describe('most likes', () => {
   })
 
   test('when list has only one blog, equals the author of that, and 5 likes', () => {
-    const best1 = 
+    const best1 =
     {
       author: listWithOneBlog[0].author,
       likes: 5
@@ -99,7 +99,7 @@ describe('most likes', () => {
   })
 
   test('when list has several blogs', () => {
-    const best2 = 
+    const best2 =
     {
       author: 'Virpi Mikkonen',
       likes: 40
@@ -112,7 +112,7 @@ describe('most likes', () => {
 describe('most blogs', () => {
 
   test('when list has only one blog, equals the author of that, and 1 blog', () => {
-    const best1 = 
+    const best1 =
     {
       author: listWithOneBlog[0].author,
       count: 1
@@ -120,9 +120,9 @@ describe('most blogs', () => {
     const result = listHelper.mostBlogs(listWithOneBlog)
     expect(best1).toMatchObject(result)
   })
-      
+
   test('when list has several blogs', () => {
-    const best2 = 
+    const best2 =
     {
       author: 'Kaisa',
       count: 3
@@ -135,7 +135,7 @@ describe('most blogs', () => {
     const result = listHelper.mostBlogs(emptyList)
     expect(result).toBeFalsy()
   })
-  
+
 })
 
 

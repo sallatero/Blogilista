@@ -2,7 +2,7 @@ import React from 'react'
 //import blogService from '../services/blogs'
 
 const BlogForm = ({
-  handleSubmit, 
+  handleSubmit,
   handleBlogTitleChange,
   handleBlogAuthorChange,
   handleBlogUrlChange,
@@ -19,39 +19,39 @@ const BlogForm = ({
       <form onSubmit={handleSubmit}>
         <div>
           Title
-            <input 
-              type="text" 
-              value={blogTitle} 
-              name="Title"
-              onChange={handleBlogTitleChange}
-            />
+          <input
+            type="text"
+            value={blogTitle}
+            name="Title"
+            onChange={handleBlogTitleChange}
+          />
         </div>
         <div>
           Author
-            <input 
-              type="text" 
-              value={blogAuthor} 
-              name="Author"
-              onChange={handleBlogAuthorChange}
-            />
+          <input
+            type="text"
+            value={blogAuthor}
+            name="Author"
+            onChange={handleBlogAuthorChange}
+          />
         </div>
         <div>
           Url
-            <input 
-              type="text" 
-              value={blogUrl} 
-              name="Url"
-              onChange={handleBlogUrlChange}
-            />
+          <input
+            type="text"
+            value={blogUrl}
+            name="Url"
+            onChange={handleBlogUrlChange}
+          />
         </div>
         <div>
           Likes
-            <input 
-              type="number" 
-              value={blogLikes} 
-              name="Likes"
-              onChange={handleBlogLikesChange}
-            />
+          <input
+            type="number"
+            value={blogLikes}
+            name="Likes"
+            onChange={handleBlogLikesChange}
+          />
         </div>
         <button type="submit">tallenna</button>
       </form>
@@ -61,8 +61,8 @@ const BlogForm = ({
 
 /*
 const BlogForm = ({
-  addBlog, 
-  addMessage, 
+  addBlog,
+  addMessage,
   updateUser}) => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
@@ -107,36 +107,36 @@ const BlogForm = ({
       <form onSubmit={handleBlogAdd}>
       <div>
           Title
-            <input 
-              type="text" 
-              value={newBlogTitle} 
+            <input
+              type="text"
+              value={newBlogTitle}
               name="Title"
               onChange={({target}) => setNewBlogTitle(target.value)}
             />
         </div>
         <div>
           Author
-            <input 
-              type="text" 
-              value={newBlogAuthor} 
+            <input
+              type="text"
+              value={newBlogAuthor}
               name="Author"
               onChange={({target}) => setNewBlogAuthor(target.value)}
             />
         </div>
         <div>
           Url
-            <input 
-              type="text" 
-              value={newBlogUrl} 
+            <input
+              type="text"
+              value={newBlogUrl}
               name="Url"
               onChange={({target}) => setNewBlogUrl(target.value)}
             />
         </div>
         <div>
           Likes
-            <input 
-              type="number" 
-              value={newBlogLikes} 
+            <input
+              type="number"
+              value={newBlogLikes}
               name="Likes"
               onChange={({target}) => setNewBlogLikes(target.value)}
             />

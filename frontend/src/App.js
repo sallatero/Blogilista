@@ -6,7 +6,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
-import Togglable from './components/Togglable';
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -19,12 +19,12 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [err, setErr] = useState(false)
-  
+
   //Haetaan kannasta blogit
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   //Haetaan kirjautuneen käyttäjän tiedot ekalla latauksella
@@ -40,9 +40,9 @@ const App = () => {
   const addMessage = (message, err) => {
     setErr(err)
     setMessage(message)
-      setTimeout(() => {
-        setMessage('')
-      }, 3000)
+    setTimeout(() => {
+      setMessage('')
+    }, 3000)
   }
 
   const resetBlogFields = () => {
@@ -65,12 +65,12 @@ const App = () => {
         addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`, true)
         return
       } else {
-        const user = response        
+        const user = response
         setUser(user)
         setUsername('')
         setPassword('')
         addMessage('Kirjautuminen onnistui', false)
-      
+
         window.localStorage.setItem(
           'loggedBlogappUser', JSON.stringify(user)
         )
@@ -96,10 +96,10 @@ const App = () => {
   const loginform = () => {
     return (
       <Togglable buttonLabel="login" ref={loginFormRef}>
-        <LoginForm 
-          handleSubmit={handleLogin} 
-          handleUsernameChange={({ target }) => setUsername(target.value)} 
-          handlePasswordChange={({ target }) => setPassword(target.value)} 
+        <LoginForm
+          handleSubmit={handleLogin}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
           username={username}
           password={password}
         />
@@ -122,9 +122,9 @@ const App = () => {
 
   const handleBlogLike = async (id) => {
     const oldVersion = blogs.find(b => b.id === id)
-    const newVersion = {...oldVersion, likes: oldVersion.likes + 1}
+    const newVersion = { ...oldVersion, likes: oldVersion.likes + 1 }
     try {
-      const response = await blogService.update(id, newVersion)
+      await blogService.update(id, newVersion)
       setBlogs(blogs.map(b => b.id !== id ? b : newVersion))
       addMessage('blogin likettäminen onnistui', false)
     }catch (exception) {
@@ -135,7 +135,7 @@ const App = () => {
   const handleBlogAdd = async (event) => {
     event.preventDefault()
     /* blogFormRef-refin ja Togglablen hookin ansiosta
-      voidaan tässä kutsua Togglablen funktiota toggleVisibility, 
+      voidaan tässä kutsua Togglablen funktiota toggleVisibility,
       joka piilottaa bloginlisäysformin. */
     blogFormRef.current.toggleVisibility()
     console.log('adding a new blog', newBlogTitle)
@@ -178,7 +178,7 @@ const App = () => {
         addMessage('Blogia ei löytynyt', true)
       }
       window.confirm(`Haluatko varmasti poistaa blogin ${blog.title}?`)
-      const resp = await blogService.remove(id)
+      await blogService.remove(id)
       const filtered = blogs.filter((b) => {
         return b.id !== id
       })
@@ -206,14 +206,14 @@ const App = () => {
       joka huolehtii itse bloginlisäyslomakkeen ulkoasusta
   */
   const handleTitle = ({ target }) => setNewBlogTitle(target.value)
-  const handleAuthor = ({ target }) => setNewBlogAuthor(target.value) 
+  const handleAuthor = ({ target }) => setNewBlogAuthor(target.value)
   const handleUrl = ({ target }) => setNewBlogUrl(target.value)
   const handleLikes = ({ target }) => setNewBlogLikes(target.value)
 
   const blogform = () => {
     return (
       <Togglable buttonLabel='lisää blogi' ref={blogFormRef}>
-        <BlogForm 
+        <BlogForm
           handleSubmit={handleBlogAdd}
           handleBlogTitleChange={handleTitle}
           handleBlogAuthorChange={handleAuthor}
@@ -224,7 +224,7 @@ const App = () => {
           blogUrl={newBlogUrl}
           blogLikes={newBlogLikes}
         />
-    </Togglable>
+      </Togglable>
     )
   }
 
@@ -232,7 +232,7 @@ const App = () => {
     <div>
       <h1>Blogilista-sovellus</h1>
       <Notification message={message} err={err}/>
-      
+
       {user === null ?
         <div>{loginform()}</div> :
         <div>

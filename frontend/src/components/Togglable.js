@@ -32,7 +32,7 @@ const Togglable = React.forwardRef((props, ref) => {
     buttonLabel: PropTypes.string.isRequired
   }
 
-  /* 
+  /*
   Eka div (hideWhenVisible) on sellainen nappula, joka tuo esiin sen 'masterin'.
   Nappula on piilossa kun sen 'master' on näkyvillä
 
@@ -41,7 +41,7 @@ const Togglable = React.forwardRef((props, ref) => {
   */
   return (
     <div>
-      <div style={hideWhenVisible}> 
+      <div style={hideWhenVisible}>
         <button onClick={toggleVisibility}>{props.buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>

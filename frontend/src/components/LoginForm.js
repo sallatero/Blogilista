@@ -2,13 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const LoginForm = ({
-  handleSubmit, 
+  handleSubmit,
   handleUsernameChange,
   handlePasswordChange,
   username,
-  password 
+  password
 }) => {
-  
+
   LoginForm.propTypes = {
     handleSubmit: PropTypes.func.isRequired,
     handleUsernameChange: PropTypes.func.isRequired,
@@ -23,22 +23,22 @@ const LoginForm = ({
 
       <form onSubmit={handleSubmit}>
         <div>
-          Käyttäjätunnus 
-            <input 
-              type="text" 
-              value={username} 
-              name="Username"
-              onChange={handleUsernameChange}
-            />
+          Käyttäjätunnus
+          <input
+            type="text"
+            value={username}
+            name="Username"
+            onChange={handleUsernameChange}
+          />
         </div>
         <div>
           Salasana
-            <input 
-              type="password" 
-              value={password} 
-              name="Password"
-              onChange={handlePasswordChange}
-            />
+          <input
+            type="password"
+            value={password}
+            name="Password"
+            onChange={handlePasswordChange}
+          />
         </div>
         <button type="submit">kirjaudu</button>
       </form>
@@ -77,7 +77,7 @@ const LoginForm = ({updateUser, addMessage, visible}) => {
         updateUser(response)
         resetUserFields()
         addMessage('Kirjautuminen onnistui', false)
-      
+
         const user = response
         window.localStorage.setItem(
           'loggedBlogappUser', JSON.stringify(user)
@@ -101,19 +101,19 @@ const LoginForm = ({updateUser, addMessage, visible}) => {
         <h2>Kirjaudu sisään</h2>
         <form onSubmit={handleLogin}>
           <div>
-            Käyttäjätunnus 
-              <input 
-                type="text" 
-                value={username} 
+            Käyttäjätunnus
+              <input
+                type="text"
+                value={username}
                 name="Username"
                 onChange={({target}) => setUsername(target.value)}
               />
           </div>
           <div>
             Salasana
-              <input 
-                type="password" 
-                value={password} 
+              <input
+                type="password"
+                value={password}
                 name="Password"
                 onChange={({target}) => setPassword(target.value)}
               />

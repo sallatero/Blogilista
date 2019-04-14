@@ -6,7 +6,7 @@ const login = async credentials => {
     const response = await axios.post(baseUrl, credentials)
     return response.data
   } catch (error) {
-    return {errorTitle: 'Väärä käyttäjätunnus tai salasana', statusCode: 401}
+    return { errorTitle: 'Väärä käyttäjätunnus tai salasana', statusCode: 401 }
   }
 }
 

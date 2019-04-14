@@ -1,10 +1,10 @@
 import React from 'react'
 //import blogService from '../services/blogs'
 
-const LogoutButton = ({handleSubmit}) => {
+const LogoutButton = ({ handleSubmit }) => {
   return (
     <div>
-        <button type="submit" onClick={handleSubmit}>logout</button>
+      <button type="submit" onClick={handleSubmit}>logout</button>
     </div>
   )
 }
@@ -12,7 +12,7 @@ const LogoutButton = ({handleSubmit}) => {
 /*
 const LogoutButton = ({updateUser, addMessage}) => {
 
-  
+
   return (
     <div>
       <form>
