@@ -38,7 +38,8 @@
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
       "./testSetup.js"
-    ]
+    ],
+    "verbose": true
   },
   "eslintConfig": {
     "extends": "dev"
