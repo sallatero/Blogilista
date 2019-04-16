@@ -28,7 +28,7 @@ test('trying out things', () => {
   const component = render(<SimpleBlog blog={blog} onClick={mockHandler} />)
 
   const button = component.container.querySelector('button')
-  console.log(prettyDOM(button))
+  //console.log(prettyDOM(button))
 
 })
 

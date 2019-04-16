@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 const Blog = ({ blog, addLike, deleteBlog, username }) => {
   const [showAll, setShowAll] = useState(false)
-  console.log('BLOG Props: ', blog)
+  //console.log('BLOG Props: ', blog)
   let deletable = true
   if (blog.user) {
     deletable = blog.user.username === username
@@ -27,10 +27,10 @@ const Blog = ({ blog, addLike, deleteBlog, username }) => {
 
   return (
     <div style={blogStyle}>
-      <div onClick={toggleShowAll}>
+      <div onClick={toggleShowAll} className='defaultBlogView'>
         {blog.title} {blog.author}
       </div>
-      <div style={showAllInfo}>
+      <div style={showAllInfo} className='showAllBlogView'>
         <p>{blog.url}</p>
         <p>{blog.likes} likes <button onClick={() => addLike(blog.id)}>like</button></p>
         <p>added by {blog.user ? blog.user.name : ''}</p>
