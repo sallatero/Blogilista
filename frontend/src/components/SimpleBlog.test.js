@@ -15,6 +15,7 @@ test('renders content', () => {
   const mockHandler = jest.fn()
 
   const component = render(<SimpleBlog blog={blog} onClick={mockHandler} />)
-
   expect(component.container).toHaveTextContent('Test title')
+  expect(component.container).toHaveTextContent('Test Author')
+  expect(component.container).toHaveTextContent('8 likes')
 })
