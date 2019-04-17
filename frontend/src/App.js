@@ -229,7 +229,7 @@ const App = () => {
   }
 
   return (
-    <div>
+    <div className='app'>
       <h1>Blogilista-sovellus</h1>
       <Notification message={message} err={err}/>
 

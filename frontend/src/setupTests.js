@@ -1,14 +1,14 @@
 import 'jest-dom/extend-expect'
 import 'react-testing-library/cleanup-after-each'
 
-let savedBlogs = {}
+let savedItems = {}
 
 const localStorageMock = {
   setItem: (key, item) => {
-    savedBlogs[key] = item
+    savedItems[key] = item
   },
-  getItem: (key) => savedBlogs[key],
-  clear: savedBlogs = {}
+  getItem: (key) => savedItems[key],
+  clear: savedItems = {}
 }
 
 window.localStorage = localStorageMock

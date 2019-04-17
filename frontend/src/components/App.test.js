@@ -3,9 +3,10 @@ import { render, waitForElement, act } from 'react-testing-library'
 jest.mock('../services/blogs') //Siirrä testsetupiin
 import App from '../App'
 import { fireEvent } from 'react-testing-library/dist'
+import { prettyDOM } from 'dom-testing-library'
 
 describe('<App />', () => {
-  test.only('renders only login form, when user is not logged in', async () => {
+  test('renders only login form, when user is not logged in', async () => {
     const component = render(<App />)
     component.rerender(<App />)
 
@@ -28,16 +29,25 @@ describe('<App />', () => {
   })
 
   test('renders all blogs it gets from backend, when user is logged in', async () => {
-    //Logataan sisään
-    window.localStorage.setItem('testkey', 'testitem')
+    //Luodaan testikäyttäjä ja logataan sisään
+    const user = {
+      username: 'tester',
+      token: '123124145521',
+      name: 'Teuvo Testaaja'
+    }
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
 
     const component = render(<App />)
     component.rerender(<App />)
+
+    const app = component.container.querySelector('.app')
 
     await waitForElement(
       () => component.container.querySelector('.blog')
     )
     const blogs = component.container.querySelectorAll('.blog')
+
+    //console.log(prettyDOM(blogs))
 
     expect(blogs.length).toBe(3)
     expect(component.container).toHaveTextContent(
