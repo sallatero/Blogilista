@@ -49,5 +49,16 @@ describe('<Blog />', () => {
 
   })
 
+  test('when all info is displayed, clicking blog will hide additional info', () => {
+
+    const blogRow = component.container.querySelector('.defaultBlogView')
+    fireEvent.click(blogRow)
+    fireEvent.click(blogRow)
+
+    const all = component.container.querySelector('.showAllBlogView')
+
+    expect(all).toHaveStyle('display: none')
+  })
+
 })
 
