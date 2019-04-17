@@ -26,7 +26,7 @@ const Blog = ({ blog, addLike, deleteBlog, username }) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div onClick={toggleShowAll} className='defaultBlogView'>
         {blog.title} {blog.author}
       </div>

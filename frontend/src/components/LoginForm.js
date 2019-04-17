@@ -18,7 +18,7 @@ const LoginForm = ({
   }
 
   return (
-    <div>
+    <div className='loginForm'>
       <h2>Kirjaudu sisään</h2>
 
       <form onSubmit={handleSubmit}>
