@@ -7,13 +7,14 @@ import BlogForm from './components/BlogForm'
 import Notification from './components/Notification'
 import LogoutButton from './components/LogoutButton'
 import Togglable from './components/Togglable'
+//import { useField } from './hooks'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [newBlogTitle, setNewBlogTitle] = useState('')
-  const [newBlogAuthor, setNewBlogAuthor] = useState('')
-  const [newBlogUrl, setNewBlogUrl] = useState('')
-  const [newBlogLikes, setNewBlogLikes] = useState(0)
+  //const [newBlogTitle, setNewBlogTitle] = useState('')
+  //const [newBlogAuthor, setNewBlogAuthor] = useState('')
+  //const [newBlogUrl, setNewBlogUrl] = useState('')
+  //const [newBlogLikes, setNewBlogLikes] = useState(0)
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState('')
   const [err, setErr] = useState(false)
@@ -43,12 +44,13 @@ const App = () => {
     }, 3000)
   }
 
+  /*
   const resetBlogFields = () => {
     setNewBlogTitle('')
     setNewBlogAuthor('')
     setNewBlogUrl('')
     setNewBlogLikes(0)
-  }
+  }*/
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -131,6 +133,12 @@ const App = () => {
       voidaan tässä kutsua Togglablen funktiota toggleVisibility,
       joka piilottaa bloginlisäysformin. */
     blogFormRef.current.toggleVisibility()
+
+    const newBlogTitle = event.target[0].value
+    const newBlogAuthor = event.target[1].value
+    const newBlogUrl = event.target[2].value
+    const newBlogLikes = event.target[3].value
+
     console.log('adding a new blog', newBlogTitle)
     try {
       const response = await blogService.create({
@@ -138,7 +146,6 @@ const App = () => {
       })
       if (response.errorTitle && response.statusCode) { // Problem
         console.log('Problem adding blog: ', response)
-        resetBlogFields()
         if (response.errorTitle === 'expired token') {
           try {
             window.localStorage.clear()
@@ -152,7 +159,6 @@ const App = () => {
         addMessage(`blogin lisääminen ei onnistunut: ${response.errorTitle}`, true)
       } else {
         setBlogs(blogs.concat(response))
-        resetBlogFields()
         addMessage('blogin lisääminen onnistui', false)
       }
     } catch(exception) {
@@ -198,24 +204,18 @@ const App = () => {
     - BlogForm
       joka huolehtii itse bloginlisäyslomakkeen ulkoasusta
   */
+  /*
   const handleTitle = ({ target }) => setNewBlogTitle(target.value)
   const handleAuthor = ({ target }) => setNewBlogAuthor(target.value)
   const handleUrl = ({ target }) => setNewBlogUrl(target.value)
   const handleLikes = ({ target }) => setNewBlogLikes(target.value)
+  */
 
   const blogform = () => {
     return (
       <Togglable buttonLabel='lisää blogi' ref={blogFormRef}>
         <BlogForm
           handleSubmit={handleBlogAdd}
-          handleBlogTitleChange={handleTitle}
-          handleBlogAuthorChange={handleAuthor}
-          handleBlogUrlChange={handleUrl}
-          handleBlogLikesChange={handleLikes}
-          blogTitle={newBlogTitle}
-          blogAuthor={newBlogAuthor}
-          blogUrl={newBlogUrl}
-          blogLikes={newBlogLikes}
         />
       </Togglable>
     )

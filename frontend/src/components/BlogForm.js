@@ -1,56 +1,60 @@
 import React from 'react'
+import { useField } from '../hooks'
 //import blogService from '../services/blogs'
 
-const BlogForm = ({
-  handleSubmit,
-  handleBlogTitleChange,
-  handleBlogAuthorChange,
-  handleBlogUrlChange,
-  handleBlogLikesChange,
-  blogTitle,
-  blogAuthor,
-  blogUrl,
-  blogLikes
-}) => {
+const BlogForm = ({ handleSubmit }) => {
+  const title = useField('text')
+  const author = useField('text')
+  const url = useField('text')
+  const likes = useField('number')
+
+  const preSubmit = (event) => {
+    title.reset()
+    author.reset()
+    url.reset()
+    likes.reset()
+    handleSubmit(event)
+  }
+
   return (
     <div>
       <h2>Lisää blogi</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={preSubmit}>
         <div>
           Title
           <input
-            type="text"
-            value={blogTitle}
+            type={title.type}
+            value={title.value}
             name="Title"
-            onChange={handleBlogTitleChange}
+            onChange={title.onChange}
           />
         </div>
         <div>
           Author
           <input
-            type="text"
-            value={blogAuthor}
+            type={author.type}
+            value={author.value}
             name="Author"
-            onChange={handleBlogAuthorChange}
+            onChange={author.onChange}
           />
         </div>
         <div>
           Url
           <input
-            type="text"
-            value={blogUrl}
+            type={url.type}
+            value={url.value}
             name="Url"
-            onChange={handleBlogUrlChange}
+            onChange={url.onChange}
           />
         </div>
         <div>
           Likes
           <input
-            type="number"
-            value={blogLikes}
+            type={likes.type}
+            value={likes.value}
             name="Likes"
-            onChange={handleBlogLikesChange}
+            onChange={likes.onChange}
           />
         </div>
         <button type="submit">tallenna</button>
