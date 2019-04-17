@@ -15,8 +15,6 @@ const App = () => {
   const [newBlogUrl, setNewBlogUrl] = useState('')
   const [newBlogLikes, setNewBlogLikes] = useState(0)
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [err, setErr] = useState(false)
 
@@ -54,21 +52,20 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
+    //console.log('logging in', event.target[0].value, event.target[1].value)
+    const username = event.target[0].value
+    const password = event.target[1].value
+
     try {
       const response = await loginService.login({
         username, password
       })
       if (response.errorTitle && response.statusCode) { //Authentication problem
-        setUsername('')
-        setPassword('')
         addMessage(`Kirjautuminen ei onnistunut: ${response.errorTitle}`, true)
         return
       } else {
         const user = response
         setUser(user)
-        setUsername('')
-        setPassword('')
         addMessage('Kirjautuminen onnistui', false)
 
         window.localStorage.setItem(
@@ -98,10 +95,6 @@ const App = () => {
       <Togglable buttonLabel="login" ref={loginFormRef}>
         <LoginForm
           handleSubmit={handleLogin}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          username={username}
-          password={password}
         />
       </Togglable>
     )
