@@ -8,6 +8,8 @@ const BlogForm = ({ handleSubmit }) => {
   const likes = useField('number')
 
   const preSubmit = (event) => {
+    //Tässä voisi tehdä myös sen preventDefaultin ja kutsua
+    //handleSubmitia suoraan uuden blogin arvoilla, ei eventillä)
     title.reset()
     author.reset()
     url.reset()
@@ -15,6 +17,14 @@ const BlogForm = ({ handleSubmit }) => {
     handleSubmit(event)
   }
 
+  /* Object spread voisi tehdä myös: {...author}, jolloin tilassa olisi
+    taulukko [author, resetAuthor] = useField('text')
+    useFieldin palautusarvo olisi silloin 
+     [
+       {type, value, onChange}, 
+       reset
+      ]
+  */
   return (
     <div>
       <h2>Lisää blogi</h2>
